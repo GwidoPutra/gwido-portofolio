@@ -2,7 +2,7 @@
 title: "Klasifikasi Jenis Bunga"
 description: "Aplikasi machine learning untuk mengklasifikasikan jenis bunga berdasarkan dataset."
 tags: ["Machine Learning", "Dart", "AI", "Flutter"]
-github: "https://github.com/GwidoPutra"
+github: "https://github.com/GwidoPutra/flower-type_classification"
 ---
 
 Aplikasi ini digunakan untuk mengklasifikasikan jenis bunga menggunakan algoritma machine learning.

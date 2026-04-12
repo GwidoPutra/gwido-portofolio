@@ -9,7 +9,7 @@ export default [
       "AI",
       "Flutter"
     ],
-    "github": "https://github.com/GwidoPutra",
+    "github": "https://github.com/GwidoPutra/flower-type_classification",
     "content": "Aplikasi ini digunakan untuk mengklasifikasikan jenis bunga menggunakan algoritma machine learning.\n\nFitur:\n\n- Training model\n- Prediksi jenis bunga\n- Visualisasi hasil",
     "_meta": {
       "filePath": "klasifikasi-bunga.md",
