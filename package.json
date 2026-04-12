@@ -2,10 +2,11 @@
   "name": "portfolio",
   "private": true,
   "type": "module",
-  "scripts": {
-    "dev": "vite dev --port 3000",
-    "build": "vite build"
-  },
+"scripts": {
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite preview"
+},
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.2.2",
     "@radix-ui/react-hover-card": "^1.1.10",
