@@ -73,7 +73,7 @@ function Portfolio() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-400 font-medium leading-relaxed max-w-2xl mx-auto">
-              Mahasiswa <span className="text-white">Teknik Informatika</span> yang memiliki minat pada pembangunan solusi digital yang estetis dan berkinerja tinggi.
+              Mahasiswa <span className="text-white">Teknik Informatika</span> yang memiliki minat pada pembangunan solusi digital yang estetis dan berkinerja tinggi. Selalu siap untuk belajar dan berkembang.
             </p>
           </div>
 
