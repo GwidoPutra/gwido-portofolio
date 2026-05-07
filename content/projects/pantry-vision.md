@@ -1,7 +1,7 @@
 ---
 title: "Pantry Vision"
-description: "Sistem informasi kandungan nutrisi buah dan sayur dan manajemen inventori."
-tags: ["Node", "Supabase", "IOT"]
+description: "Aplikasi deteksi jenis dan kesegaran buah dan sayur, perhitungan kandungan nutrisi, dan rekomendasi menu"
+tags: ["Node", "Supabase", "IOT", "Machine Learning", "Typescript", "React"]
 github: "https://github.com/GwidoPutra/Pantry-vision/"
 ---
 
