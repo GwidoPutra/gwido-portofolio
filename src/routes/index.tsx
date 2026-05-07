@@ -101,7 +101,7 @@ function Portfolio() {
       <section className="max-w-5xl mx-auto px-6 -mt-12 relative z-10">
         <div className="flex flex-wrap justify-center gap-6">
           {[
-            { label: 'Proyek Selesai', value: '5+' },
+            { label: 'Proyek Selesai', value: '6' },
             { label: 'Tahun Belajar', value: '2+' },
             { label: 'Tech Stack', value: '5+' },
           ].map((stat) => (
