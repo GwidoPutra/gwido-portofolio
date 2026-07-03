@@ -1,25 +1,6 @@
 
 export default [
   {
-    "title": "Pantry Vision",
-    "description": "Aplikasi machine learning untuk mengklasifikasikan jenis buah dan sayur, deteksi kesegaran, hitung kandungan nutrisi, dan rekomendasi menu.",
-    "tags": [
-      "Machine Learning",
-      "Node",
-      "Typescript",
-      "React"
-    ],
-    "github": "https://github.com/GwidoPutra/Pantry-vision/",
-    "content": "Aplikasi ini digunakan untuk mengklasifikasikan jenis buah dan sayur serta deteksi kesegaran.\n\nFitur:\n\n- Training model\n- Prediksi jenis buah/sayur\n- Deteksi Kesegaran\n- Hitung Kandungan Nutrisi\n- Rekomendasi Menu\n- Visualisasi Hasil",
-    "_meta": {
-      "filePath": "pantry-vision.md",
-      "fileName": "pantry-vision  .md",
-      "directory": ".",
-      "extension": "md",
-      "path": "pantry-vision"
-    }
-  },
-  {
     "title": "Klasifikasi Jenis Bunga",
     "description": "Aplikasi machine learning untuk mengklasifikasikan jenis bunga berdasarkan dataset.",
     "tags": [
@@ -58,11 +39,14 @@ export default [
   },
   {
     "title": "Pantry Vision",
-    "description": "Sistem informasi kandungan nutrisi buah dan sayur dan manajemen inventori.",
+    "description": "Aplikasi deteksi jenis dan kesegaran buah dan sayur, perhitungan kandungan nutrisi, dan rekomendasi menu",
     "tags": [
       "Node",
       "Supabase",
-      "IOT"
+      "IOT",
+      "Machine Learning",
+      "Typescript",
+      "React"
     ],
     "github": "https://github.com/GwidoPutra/Pantry-vision/",
     "content": "Sistem Web terintegrasi IoT untuk mengelola inventori dan rekomendasi menu.\r\n\r\nFitur:\r\n\r\n- Manajemen inventori\r\n- Deteksi jenis buah dan sayur\r\n- Rekomendasi menu\r\n- Hitung kandungan nutrisi",

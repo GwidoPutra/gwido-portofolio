@@ -31,7 +31,7 @@ export default [
       "Teamwork",
       "Innovation"
     ],
-    "content": "Berpartisipasi aktif sebagai panitia dalam acara:\r\n\r\n- Internal Competition Jurusan Teknologi Informasi (Koordinator Lapangan)\r\n- Seminar Nasional (Koordinator Sie PDD)\r\n- Semarak Pekan Olahraga Teknologi Informasi (Koordinator Lapangan)\r\n\r\nMendukung pelaksanaa program PKM, Brainboost, dan Olahraga Jurusan Teknologi Informasi",
+    "content": "Berpartisipasi aktif sebagai panitia dalam acara:\r\n\r\n- Internal Competition JTI 2024 (Koordinator Sie Acara & Koordinator Lapangan)\r\n- Seminar Nasional HMTI Polinema 2024 (Koordinator Sie PDD)\r\n- Semarak Pekan Olahraga JTI Polinema 2024 (Koordinator Lapangan)\r\n\r\nMendukung pelaksanaa program PKM, Brainboost, dan Olahraga Jurusan Teknologi Informasi",
     "_meta": {
       "filePath": "oc-ristek.md",
       "fileName": "oc-ristek.md",

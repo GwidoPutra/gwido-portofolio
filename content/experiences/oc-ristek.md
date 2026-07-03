@@ -8,8 +8,8 @@ tags: ["Event Management", "Research", "Teamwork", "Innovation"]
 
 Berpartisipasi aktif sebagai panitia dalam acara:
 
-- Internal Competition Jurusan Teknologi Informasi (Koordinator Lapangan)
-- Seminar Nasional (Koordinator Sie PDD)
-- Semarak Pekan Olahraga Teknologi Informasi (Koordinator Lapangan)
+- Internal Competition JTI 2024 (Koordinator Sie Acara & Koordinator Lapangan)
+- Seminar Nasional HMTI Polinema 2024 (Koordinator Sie PDD)
+- Semarak Pekan Olahraga JTI Polinema 2024 (Koordinator Lapangan)
 
 Mendukung pelaksanaa program PKM, Brainboost, dan Olahraga Jurusan Teknologi Informasi
