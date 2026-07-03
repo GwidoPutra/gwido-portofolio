@@ -1,277 +1,609 @@
+import { useState, useEffect } from 'react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { allExperiences, allProjects } from 'content-collections'
-
+import { allProjects } from 'content-collections'
+import { AnimatePresence, motion } from 'framer-motion'
+import { FadeIn } from '../components/ui/animations/FadeIn'
+import { TextReveal } from '../components/ui/animations/TextReveal'
+import { ProfileCard } from '../components/ui/animations/ProfileCard'
+import { Lightfall } from '../components/ui/animations/Lightfall'
+import { CLITerminal } from '../components/CLITerminal'
+import { TechStackGrid } from '../components/BouncingTechStack'
+import { ResumeModal } from '../components/ResumeModal'
 import {
-  Mail,
-  Github,
-  Linkedin,
-  ExternalLink,
-  ArrowDown,
+  Smartphone,
+  Globe,
+  Database,
+  CheckCircle2,
+  BarChart,
   Code2,
-  Briefcase,
-  GraduationCap,
-  FolderDot,
+  X,
+  FolderOpen,
+  Github,
+  ExternalLink,
+  FileText,
+  Layers,
+  ArrowRight,
+  ChevronRight,
   Sparkles,
+  Linkedin,
+  Menu,
+  Sun,
+  Moon
 } from 'lucide-react'
+import { toast } from 'sonner'
+import { useTheme } from '../contexts/ThemeContext'
 
+// 1. Registrasi Rute ke TanStack Router
 export const Route = createFileRoute('/')({
-  component: Portfolio,
+  component: CompanyProfile,
 })
 
-const skills = {
-  'Frontend': ['React', 'TypeScript', 'Tailwind CSS', 'Vite', 'Next.js'],
-  'Backend': ['Node.js', 'REST APIs', 'SQL', 'PostgreSQL', 'Firebase', 'Laravel'],
-  'Alat & Platform': ['Git', 'Docker', 'Figma', 'Vercel', 'PostMan', 'Android Studio'],
-}
-
-const highlights = [
+// Data Layanan Utama (Services)
+const services = [
   {
-    icon: Code2,
-    title: 'Stack Modern',
-    description: 'Web ini dibuat dengan teknologi web terbaru — React 19, TypeScript, dan TanStack.',
+    icon: Globe,
+    title: 'Web Development',
+    description: 'Pengembangan aplikasi web responsif berkinerja tinggi dengan arsitektur modern (React, Next.js, Node.js) yang dirancang untuk skalabilitas dan pengalaman pengguna maksimal.',
   },
   {
-    icon: Briefcase,
-    title: 'Pengalaman Organisasi',
-    description: 'Berpengalaman mengelola departemen Ristek, Minat, dan Bakat di HMTI Polinema (2024-2026).',
+    icon: Smartphone,
+    title: 'Mobile Solutions',
+    description: 'Pembuatan aplikasi lintas platform (cross-platform) untuk iOS dan Android yang mulus, stabil, dan intuitif menggunakan teknologi terdepan.',
   },
   {
-    icon: GraduationCap,
-    title: 'Pendidikan',
-    description: 'Mahasiswa D-IV Teknik Informatika di Politeknik Negeri Malang.',
+    icon: Database,
+    title: 'System Architecture',
+    description: 'Perancangan basis data dan infrastruktur backend (API, Cloud) yang aman, efisien, serta siap melayani beban trafik yang masif.',
   },
 ]
 
-function Portfolio() {
-  const featuredProjects = allProjects.slice(0, 3);
+// Data Nilai Perusahaan (Values)
+const values = [
+  {
+    icon: CheckCircle2,
+    title: 'Inovasi Berkelanjutan',
+    description: 'Saya terus mengadopsi tumpukan teknologi terbaru untuk memastikan produk Anda tidak tertinggal zaman.',
+  },
+  {
+    icon: BarChart,
+    title: 'Berorientasi Bisnis',
+    description: 'Solusi yang saya bangun berfokus penuh pada penyelesaian masalah dan pencapaian target bisnis Anda.',
+  },
+  {
+    icon: Code2,
+    title: 'Kualitas Kode Industri',
+    description: 'Setiap baris kode ditulis dengan standar industri terbaik demi keamanan dan kemudahan pemeliharaan.',
+  },
+]
+
+// 2. Komponen Modal Portofolio
+function ProjectsModal({ onClose }: { onClose: () => void }) {
+  const handleUnderDevelopment = (type: string) => {
+    toast.info(`${type} Sedang Disiapkan`, {
+      description: 'Fitur ini masih dalam tahap pengerjaan.',
+      duration: 3000
+    })
+  }
+
+  const { theme } = useTheme()
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    
+    const handleEscKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose()
+      }
+    }
+    
+    document.addEventListener('keydown', handleEscKey)
+    
+    return () => { 
+      document.body.style.overflow = '' 
+      document.removeEventListener('keydown', handleEscKey)
+    }
+  }, [onClose])
 
   return (
-    <div className="min-h-screen bg-[#fafafa] text-slate-900 selection:bg-blue-500/10 selection:text-blue-600 font-sans">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-[#020617] text-white">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-blue-600/20 blur-[120px] animate-pulse" />
-          <div className="absolute top-[20%] -right-[5%] w-[30%] h-[30%] rounded-full bg-indigo-600/20 blur-[100px]" />
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150" />
-        </div>
-
-        <div className="relative max-w-6xl mx-auto px-6 py-32 md:py-44 flex flex-col items-center text-center">
-          <div className="group relative mb-8">
-             <div className="absolute inset-0 bg-blue-500 rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition-opacity" />
-             <div className="relative w-28 h-28 md:w-32 md:h-32 rounded-3xl overflow-hidden ring-1 ring-white/20 rotate-3 group-hover:rotate-0 transition-transform duration-500 shadow-2xl">
-                <img src="/profile.JPG" alt="Gwido Putra" className="w-full h-full object-cover" />
-             </div>
-          </div>
-
-          <div className="space-y-4 max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-blue-400 text-xs font-bold tracking-[0.2em] uppercase backdrop-blur-md">
-              <Sparkles size={12} /> Terbuka untuk Peluang Kerja
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 40, scale: 0.96 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 40, scale: 0.96 }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className={`rounded-3xl shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col overflow-hidden transition-colors duration-300 ${theme === 'dark' ? 'bg-slate-900 border border-slate-800' : 'bg-white'}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Modal Header */}
+        <div className={`flex items-start justify-between p-8 pb-6 border-b shrink-0 transition-colors duration-300 ${theme === 'dark' ? 'border-slate-800' : 'border-slate-100'}`}>
+          <div className="space-y-2">
+            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-blue-600 text-[10px] font-black tracking-widest uppercase transition-colors duration-300 ${theme === 'dark' ? 'bg-blue-500/10 border-blue-500/20' : 'bg-blue-50 border-blue-100'}`}>
+              <Sparkles size={12} /> Portofolio Karya
             </div>
-            
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-white/50">
-              Gwido Putra Wijaya
-            </h1>
-            
-            <p className="text-lg md:text-xl text-slate-400 font-medium leading-relaxed max-w-2xl mx-auto">
-              Mahasiswa <span className="text-white">Teknik Informatika</span> yang memiliki minat pada pembangunan solusi digital yang estetis dan berkinerja tinggi. Selalu siap untuk belajar dan berkembang.
-            </p>
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-4 mt-10">
-            <a href="mailto:gwidoputra@gmail.com" className="group flex items-center gap-2 bg-blue-600 hover:bg-blue-500 transition-all text-white px-8 py-4 rounded-2xl font-bold shadow-xl shadow-blue-600/20">
-              <Mail size={18} className="group-hover:rotate-12 transition-transform" /> Hubungi Saya
-            </a>
-            <Link to="/resume" className="flex items-center gap-2 bg-white/5 hover:bg-white/10 transition-all text-white px-8 py-4 rounded-2xl font-bold border border-white/10 backdrop-blur-md">
-              Short Resume
-            </Link>
-          </div>
-
-          <div className="flex items-center gap-6 mt-12 text-slate-500">
-            <a href="https://github.com/GwidoPutra" target="_blank" className="hover:text-blue-400 transition-all hover:-translate-y-1"><Github size={24} /></a>
-            <a href="https://www.linkedin.com/in/gwido-putra-wijaya/" target="_blank" className="hover:text-blue-400 transition-all hover:-translate-y-1"><Linkedin size={24} /></a>
-          </div>
-          
-          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-slate-500 animate-bounce opacity-50">
-            <ArrowDown size={20} />
-          </div>
-        </div>
-      </section>
-            
-      {/* Stats Section */}
-      <section className="max-w-5xl mx-auto px-6 -mt-12 relative z-10">
-        <div className="flex flex-wrap justify-center gap-6">
-          {[
-            { label: 'Proyek Selesai', value: '6' },
-            { label: 'Tahun Belajar', value: '2+' },
-            { label: 'Tech Stack', value: '5+' },
-          ].map((stat) => (
-            <div key={stat.label} className="w-[calc(50%-0.75rem)] md:w-44 bg-white p-6 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-slate-100 hover:border-blue-200 transition-all hover:-translate-y-1 group text-center">
-              <p className="text-3xl font-black text-slate-900 group-hover:text-blue-600 transition-colors">{stat.value}</p>
-              <p className="text-[10px] text-slate-400 uppercase tracking-widest font-bold mt-1">{stat.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section className="max-w-6xl mx-auto px-6 py-32">
-        <div className="grid lg:grid-cols-2 gap-20 items-center">
-          <div className="space-y-6">
-            <h2 className="text-4xl font-bold tracking-tight text-slate-900">
-              Membangun <span className="text-blue-600 italic font-serif">Kualitas</span> lewat Baris Kode.
+            <h2 className={`text-3xl font-black transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+              Projects<span className="text-blue-600">.</span>
             </h2>
-            <p className="text-lg text-slate-600 leading-relaxed">
-              Saya percaya bahwa teknologi harus memudahkan hidup. Melalui ekosistem <span className="font-semibold text-slate-900">Web Modern</span> dan <span className="font-semibold text-slate-900">Mobile</span>, saya membantu mengubah ide menjadi kenyataan.
-            </p>
-            <Link to="/projects" className="inline-flex items-center gap-2 text-blue-600 font-bold group">
-              Jelajahi semua proyek <ExternalLink size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-            </Link>
+            <p className={`text-sm font-medium transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>Eksplorasi solusi digital melalui kode.</p>
           </div>
-          
-          <div className="grid gap-4">
-            {highlights.map((item) => (
-              <div key={item.title} className="flex items-start gap-5 p-6 rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-                <div className="p-3 bg-blue-50 rounded-2xl text-blue-600 shrink-0"><item.icon size={22} /></div>
-                <div>
-                  <h3 className="font-bold text-slate-900 mb-1">{item.title}</h3>
-                  <p className="text-slate-500 text-sm leading-relaxed">{item.description}</p>
+          <button
+            onClick={onClose}
+            className={`p-2 rounded-xl transition-colors ${theme === 'dark' ? 'hover:bg-slate-800 text-slate-400 hover:text-white' : 'hover:bg-slate-100 text-slate-400 hover:text-slate-900'}`}
+          >
+            <X size={22} />
+          </button>
+        </div>
+
+        {/* Modal Body - Scrollable */}
+        <div className="overflow-y-auto p-8 flex-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {allProjects.map((project) => (
+              <div
+                key={project._meta.path}
+                className={`group flex flex-col rounded-2xl border overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ${theme === 'dark' ? 'bg-slate-800/50 border-slate-700' : 'bg-slate-50 border-slate-100'}`}
+              >
+                <div className="p-6">
+                  <div className="flex justify-between items-start mb-4">
+                    <div className={`p-3 rounded-xl transition-all shadow-sm ${theme === 'dark' ? 'bg-slate-800 text-slate-400 group-hover:bg-blue-500/10 group-hover:text-blue-400' : 'bg-white text-slate-400 group-hover:text-blue-600 group-hover:bg-blue-50'}`}>
+                      <FolderOpen size={20} />
+                    </div>
+                    {/* Indikator Status Proyek */}
+                    <div className="flex items-center gap-2">
+                      <span className={`w-2 h-2 rounded-full ${theme === 'dark' ? 'bg-blue-400' : 'bg-blue-500'} animate-pulse`}></span>
+                      <span className={`text-[10px] font-bold uppercase tracking-widest ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`}>Available</span>
+                    </div>
+                  </div>
+                  <h3 className={`text-xl font-bold mb-2 group-hover:text-blue-600 transition-colors ${theme === 'dark' ? 'text-white group-hover:text-blue-400' : 'text-slate-900'}`}>
+                    {project.title}
+                  </h3>
+                  <p className={`text-sm leading-relaxed line-clamp-2 mb-4 font-medium transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tags.slice(0, 4).map((tag) => (
+                      <span key={tag} className={`text-[10px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-wide transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400 bg-slate-800 border border-slate-700' : 'text-slate-500 bg-white border border-slate-200'}`}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <div className={`pt-4 border-t flex gap-5 transition-colors duration-300 ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>
+                    {project.github && (
+                      <a href={project.github} target="_blank" rel="noopener noreferrer"
+                        className={`flex items-center gap-1.5 text-[10px] font-black transition-colors tracking-widest uppercase ${theme === 'dark' ? 'text-slate-400 hover:text-white' : 'text-slate-400 hover:text-slate-900'}`}>
+                        <Github size={14} /> GitHub
+                      </a>
+                    )}
+                    <button onClick={() => handleUnderDevelopment('Live Demo')}
+                      className={`flex items-center gap-1.5 text-[10px] font-black transition-colors tracking-widest uppercase ${theme === 'dark' ? 'text-slate-400 hover:text-blue-400' : 'text-slate-400 hover:text-blue-600'}`}>
+                      <ExternalLink size={14} /> Live Demo
+                    </button>
+                    <button onClick={() => handleUnderDevelopment('Dokumentasi')}
+                      className={`flex items-center gap-1.5 text-[10px] font-black transition-colors tracking-widest uppercase ${theme === 'dark' ? 'text-slate-400 hover:text-green-400' : 'text-slate-400 hover:text-green-600'}`}>
+                      <FileText size={14} /> Docs
+                    </button>
+                  </div>
                 </div>
               </div>
+            ))}
+          </div>
+          <p className={`text-center text-xs font-bold uppercase tracking-widest mt-8 pt-8 border-t transition-colors duration-300 ${theme === 'dark' ? 'text-slate-500 border-slate-800' : 'text-slate-400 border-slate-100'}`}>
+            Total {allProjects.length} Proyek Terdaftar
+          </p>
+        </div>
+      </motion.div>
+    </motion.div>
+  )
+}
+
+// 3. Komponen Utama Halaman Utama
+function CompanyProfile() {
+  const featuredProjects = allProjects.slice(0, 3);
+  const [showProjects, setShowProjects] = useState(false)
+  const [showResume, setShowResume] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { theme, toggleTheme } = useTheme()
+
+  return (
+    <div className={`min-h-screen font-sans transition-colors duration-300 ${theme === 'dark' ? 'bg-[#020617] text-white' : 'bg-white text-slate-900'} selection:bg-blue-100 selection:text-blue-900 dark:selection:bg-blue-500/20 dark:selection:text-blue-200`}>
+
+      {/* Navbar */}
+      <nav className={`fixed top-0 inset-x-0 z-50 backdrop-blur-md border-b transition-all duration-300 ${theme === 'dark' ? 'bg-[#020617]/80 border-slate-800' : 'bg-white/80 border-slate-100'}`}>
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-600/20">
+              <Layers className="text-white w-5 h-5" />
+            </div>
+            <span className={`text-xl font-bold tracking-tight ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>gwidoputra</span>
+          </div>
+          <div className="hidden md:flex items-center gap-8 text-sm font-medium">
+            <a href="#services" className={`hover:text-blue-600 transition-colors ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>Layanan</a>
+            <a href="#expertise" className={`hover:text-blue-600 transition-colors ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>TechStack</a>
+            <a href="#portfolio" className={`hover:text-blue-600 transition-colors ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>Portofolio</a>
+            <button onClick={() => setShowResume(true)} className={`hover:text-blue-600 transition-colors ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>Short Resume</button>
+            <Link to="/contact" className={`hover:text-blue-600 transition-colors ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>Kontak</Link>
+          </div>
+          <div className="hidden md:flex items-center gap-4">
+            <button
+              onClick={toggleTheme}
+              className={`p-2 rounded-lg transition-colors ${theme === 'dark' ? 'hover:bg-slate-800 text-slate-400' : 'hover:bg-slate-100 text-slate-600'}`}
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+            <a href="mailto:gwidoputra@gmail.com" className="bg-slate-900 hover:bg-blue-600 text-white px-6 py-2.5 rounded-full text-sm font-medium transition-all shadow-md dark:bg-slate-800 dark:hover:bg-blue-600">
+              Hubungi Saya
+            </a>
+          </div>
+          <div className="flex md:hidden items-center gap-2">
+            <button
+              onClick={toggleTheme}
+              className={`p-2 rounded-lg transition-colors ${theme === 'dark' ? 'hover:bg-slate-800 text-slate-400' : 'hover:bg-slate-100 text-slate-600'}`}
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+            <button 
+              className={`p-2 rounded-lg transition-colors ${theme === 'dark' ? 'hover:bg-slate-800' : 'hover:bg-slate-100'}`}
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className={`md:hidden border-b overflow-hidden ${theme === 'dark' ? 'bg-[#020617] border-slate-800' : 'bg-white border-slate-100'}`}
+            >
+              <div className="px-6 py-4 space-y-3">
+                <a 
+                  href="#services" 
+                  className={`block py-2 text-sm font-medium hover:text-blue-600 transition-colors ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Layanan
+                </a>
+                <a 
+                  href="#expertise" 
+                  className={`block py-2 text-sm font-medium hover:text-blue-600 transition-colors ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  TechStack
+                </a>
+                <a 
+                  href="#portfolio" 
+                  className={`block py-2 text-sm font-medium hover:text-blue-600 transition-colors ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Portofolio
+                </a>
+                <button
+                  onClick={() => { setMobileMenuOpen(false); setShowResume(true) }}
+                  className={`block w-full text-left py-2 text-sm font-medium hover:text-blue-600 transition-colors ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}
+                >
+                  Short Resume
+                </button>
+                <Link 
+                  to="/contact" 
+                  className={`block py-2 text-sm font-medium hover:text-blue-600 transition-colors ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Kontak
+                </Link>
+                <a 
+                  href="mailto:gwidoputra@gmail.com" 
+                  className={`block w-full text-center px-6 py-2.5 rounded-full text-sm font-medium transition-all shadow-md mt-4 ${theme === 'dark' ? 'bg-slate-800 hover:bg-blue-600 text-white' : 'bg-slate-900 hover:bg-blue-600 text-white'}`}
+                >
+                  Hubungi Saya
+                </a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
+
+      {/* Hero Section */}
+      <section className={`relative pt-32 pb-20 md:pt-52 md:pb-32 overflow-hidden transition-colors duration-300 ${theme === 'dark' ? 'bg-[#020617]' : 'bg-slate-50'}`}>
+        <div
+          className="absolute inset-0 opacity-[0.015] pointer-events-none mix-blend-overlay"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
+          }}
+        />        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-50/50 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 pointer-events-none dark:bg-blue-600/10" />
+
+        {/* Animasi Kanvas Efek Lightfall */}
+        <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
+          <Lightfall
+            beamCount={16}
+            beamColor="37,99,235"
+            speed={0.3}
+            className="opacity-40"
+          />
+        </div>
+
+        {/* Konten Utama di atas Kanvas */}
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div className="space-y-6 lg:space-y-8">
+              <FadeIn delay={0.2}>
+                <div className={`inline-flex items-center gap-2 px-3 py-1.5 md:px-4 rounded-full border text-blue-600 text-[10px] md:text-xs font-semibold tracking-wide shadow-sm uppercase transition-colors duration-300 ${theme === 'dark' ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-200'}`}>
+                  Digital Transformation Partner
+                </div>
+              </FadeIn>
+
+              <h1 className={`text-3xl md:text-5xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                <TextReveal text="Saya Membangun" /> <br />
+                <TextReveal text="Masa Depan Digital." className="text-blue-600 dark:text-blue-400" />
+              </h1>
+
+              <FadeIn delay={0.4}>
+                <p className={`text-base md:text-lg leading-relaxed max-w-xl font-medium transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>
+                  Sebagai konsultan dan pengembang perangkat lunak independen, saya mentransformasi visi bisnis Anda menjadi produk digital yang kuat, terukur, dan berpusat pada pengguna.
+                </p>
+              </FadeIn>
+
+              <FadeIn delay={0.6} className="flex flex-col sm:flex-row gap-3 pt-4">
+                <a href="mailto:gwidoputra@gmail.com" className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 transition-colors text-white px-6 py-3 md:px-8 md:py-4 rounded-xl font-semibold shadow-lg shadow-blue-600/20">
+                  Jadwalkan Diskusi <ArrowRight size={16} />
+                </a>
+                <a href="#portfolio" className={`flex items-center justify-center gap-2 transition-colors px-6 py-3 md:px-8 md:py-4 rounded-xl font-semibold border shadow-sm ${theme === 'dark' ? 'bg-slate-900 hover:bg-slate-800 text-slate-300 border-slate-700' : 'bg-white hover:bg-slate-50 text-slate-700 border-slate-200'}`}>
+                  Lihat Karya Saya
+                </a>
+              </FadeIn>
+            </div>
+
+            <FadeIn delay={0.3} className="hidden md:flex lg:flex justify-center items-center">
+              <ProfileCard
+                name="Gwido Putra Wijaya"
+                title="Software Engineer"
+                location="Malang, Jawa Timur"
+                imageSrc="/profile.JPG"
+                githubUrl="https://github.com/GwidoPutra"
+                linkedinUrl="https://linkedin.com/in/gwido-putra-wijaya"
+                badge="Available for Work"
+              />
+            </FadeIn>
+          </div>
+        </div>
+      </section>
+
+      {/* Metrics Section */}
+      <section className={`border-y py-12 relative z-10 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#020617] border-slate-800' : 'bg-white border-slate-100'}`}>
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[
+              { label: 'Proyek Selesai', value: '6+' },
+              { label: 'Tahun Berinovasi', value: '2+' },
+              { label: 'Teknologi Dikuasai', value: '15+' },
+              { label: 'Dukungan Teknis', value: '24/7' },
+            ].map((metric, idx) => (
+              <FadeIn key={metric.label} delay={idx * 0.1} className="text-center px-4">
+                <p className={`text-3xl md:text-4xl font-extrabold mb-2 transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{metric.value}</p>
+                <p className={`text-xs font-semibold uppercase tracking-widest transition-colors duration-300 ${theme === 'dark' ? 'text-slate-500' : 'text-slate-500'}`}>{metric.label}</p>
+              </FadeIn>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Experience Section - UPDATED WITH "Lihat Detail" */}
-      <section className="max-w-6xl mx-auto px-6 py-32">
-        <div className="flex justify-between items-end mb-16 gap-6">
-          <div className="space-y-2">
-            <p className="text-blue-600 font-bold uppercase tracking-widest text-xs">Timeline</p>
-            <h2 className="text-4xl font-bold text-slate-900">Pengalaman Organisasi & Pekerjaan</h2>
+      {/* Services Section */}
+      <section id="services" className={`py-32 relative z-10 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#020617]' : 'bg-slate-50'}`}>
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center max-w-3xl mx-auto mb-20 space-y-6">
+            <h2 className="text-blue-600 font-bold uppercase tracking-widest text-sm">Layanan Utama</h2>
+            <h3 className={`text-4xl md:text-5xl font-bold tracking-tight transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Solusi End-to-End untuk Kebutuhan IT Anda</h3>
           </div>
-          {/* Tombol Lihat Detail yang tetap dipertahankan */}
-          <Link to="/resume" className="text-blue-600 font-bold hover:underline text-sm flex items-center gap-1 group">
-            Lihat detail <span className="group-hover:translate-x-1 transition-transform">→</span>
-          </Link>
-        </div>
-        <div className="grid md:grid-cols-2 gap-8">
-          {allExperiences.map((exp) => (
-            <div key={exp.title} className="group relative p-8 rounded-[2rem] bg-white border border-slate-100 hover:border-blue-100 transition-all shadow-sm">
-              <div className="flex items-center justify-between mb-6">
-                <span className="px-3 py-1 rounded-full bg-slate-50 text-slate-400 text-[10px] font-bold uppercase tracking-widest ring-1 ring-slate-100">
-                  {exp.period}
-                </span>
-                <Briefcase size={20} className="text-slate-200 group-hover:text-blue-500 transition-colors" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-1 group-hover:text-blue-600 transition-colors">{exp.title}</h3>
-              <p className="text-blue-600/70 font-semibold text-sm mb-4">{exp.organization}</p>
-              <p className="text-slate-500 text-sm leading-relaxed line-clamp-3">{exp.description}</p>
-            </div>
-          ))}
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {services.map((service, idx) => (
+              <FadeIn key={service.title} delay={idx * 0.2} direction="up" className={`p-10 rounded-2xl border shadow-sm hover:shadow-xl transition-shadow group transition-colors duration-300 ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-100'}`}>
+                <div className="w-14 h-14 bg-blue-50 dark:bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-600 mb-8 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                  <service.icon size={28} />
+                </div>
+                <h4 className={`text-xl font-bold mb-4 transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{service.title}</h4>
+                <p className={`leading-relaxed transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>{service.description}</p>
+              </FadeIn>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Featured Projects Grid */}
-      <section className="bg-slate-50 py-32">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-            <div className="space-y-2">
-              <p className="text-blue-600 font-bold uppercase tracking-widest text-xs">Featured Work</p>
-              <h2 className="text-4xl font-bold text-slate-900">Proyek Unggulan</h2>
-            </div>
-            <Link to="/projects" className="bg-slate-900 hover:bg-blue-600 text-white px-8 py-3 rounded-2xl font-bold transition-all shadow-lg">
-              Lihat Semua Proyek
-            </Link>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {featuredProjects.map((project) => (
-              <div key={project.title} className="group flex flex-col h-full bg-white rounded-[2rem] border border-slate-200/60 overflow-hidden hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] transition-all duration-500">
-                <div className="p-8 pb-4">
-                  <div className="flex justify-between items-center mb-6">
-                    <div className="p-3 bg-slate-50 rounded-2xl text-slate-400 group-hover:text-blue-600 group-hover:bg-blue-50 transition-all">
-                      <FolderDot size={24} />
+      {/* Value Proposition Section */}
+      <section id="expertise" className={`py-32 overflow-hidden relative z-10 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#020617]' : 'bg-white'}`}>
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-20 items-center">
+            <FadeIn direction="left" className="space-y-8">
+              <h2 className="text-blue-600 font-bold uppercase tracking-widest text-sm">Kenapa Memilih Saya</h2>
+              <h3 className={`text-4xl font-bold leading-tight transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                Mendorong Pertumbuhan Melalui Arsitektur Berkinerja Tinggi
+              </h3>
+              <p className={`text-lg leading-relaxed font-medium transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>
+                Saya tidak sekadar menulis kode. Saya merancang arsitektur sistem yang selaras dengan tujuan operasional Anda, memastikan setiap aplikasi dapat ditingkatkan skalanya seiring berkembangnya bisnis Anda.
+              </p>
+              <div className="space-y-6 pt-4">
+                {values.map((value, idx) => (
+                  <div key={idx} className="flex gap-4 items-start">
+                    <div className="mt-1 text-blue-600 bg-blue-50 dark:bg-blue-500/10 p-1 rounded-full"><value.icon size={16} /></div>
+                    <div>
+                      <h4 className={`font-bold mb-1 transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{value.title}</h4>
+                      <p className={`text-sm leading-relaxed transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>{value.description}</p>
                     </div>
-                    {project.github && (
-                      <a href={project.github} target="_blank" className="text-slate-400 hover:text-slate-900 transition-colors p-2"><Github size={20} /></a>
-                    )}
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3 leading-tight group-hover:text-blue-600 transition-colors">
+                ))}
+              </div>
+            </FadeIn>
+
+            <div className="grid grid-cols-2 gap-4 relative">
+              <div className="absolute inset-0 bg-gradient-to-tr from-blue-100 to-teal-50 blur-3xl -z-10 rounded-full opacity-50 dark:from-blue-600/10 dark:to-cyan-600/10" />
+              <FadeIn delay={0.2} direction="up" className="space-y-4 pt-12">
+                <div className="bg-slate-900 dark:bg-slate-800 p-8 rounded-2xl shadow-xl text-white border dark:border-slate-700">
+                  <Database className="w-10 h-10 text-blue-400 mb-6" />
+                  <h4 className="font-bold mb-2">Data Security</h4>
+                  <p className="text-sm text-slate-400">Penerapan standar keamanan tertinggi pada infrastruktur cloud.</p>
+                </div>
+                <div className={`p-8 rounded-2xl shadow-xl border transition-colors duration-300 ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-100'}`}>
+                  <Code2 className="w-10 h-10 text-blue-600 mb-6" />
+                  <h4 className={`font-bold mb-2 transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Modern Stack</h4>
+                  <p className={`text-sm transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>Teknologi mutakhir untuk performa aplikasi maksimal.</p>
+                </div>
+              </FadeIn>
+              <FadeIn delay={0.4} direction="up" className="space-y-4">
+                <div className={`p-8 rounded-2xl shadow-xl border transition-colors duration-300 ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-100'}`}>
+                  <Smartphone className="w-10 h-10 text-blue-600 mb-6" />
+                  <h4 className={`font-bold mb-2 transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Mobile First</h4>
+                  <p className={`text-sm transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>Pengalaman antarmuka yang optimal di segala jenis perangkat.</p>
+                </div>
+                <div className="bg-blue-600 p-8 rounded-2xl shadow-xl text-white">
+                  <BarChart className="w-10 h-10 text-white/80 mb-6" />
+                  <h4 className="font-bold mb-2">Analytics</h4>
+                  <p className="text-sm text-blue-100">Integrasi dasbor dan pelaporan data secara real-time.</p>
+                </div>
+              </FadeIn>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Tech Stack Section */}
+      <section id="tech" className={`py-32 relative z-10 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#020617]' : 'bg-slate-50'}`}>
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
+            <h2 className="text-blue-600 font-bold uppercase tracking-widest text-sm">Tech Stack</h2>
+            <h3 className={`text-4xl md:text-5xl font-bold tracking-tight transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+              Technology I Work With
+            </h3>
+            <p className={`text-lg leading-relaxed transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>
+              Check out the tools and technologies I use (click around for fun!)
+            </p>
+          </div>
+
+          <TechStackGrid />
+        </div>
+      </section>
+
+      {/* Portfolio Section */}
+      <section id="portfolio" className="py-32 bg-slate-900 text-white relative overflow-hidden z-10">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-6">
+            <div className="space-y-4 max-w-2xl">
+              <h2 className="text-blue-400 font-bold uppercase tracking-widest text-sm">Studi Kasus</h2>
+              <h3 className="text-4xl md:text-5xl font-bold tracking-tight">Proyek Terbaru</h3>
+            </div>
+            <button onClick={() => setShowProjects(true)} className="flex items-center gap-2 text-white hover:text-blue-400 font-semibold transition-colors pb-2 border-b border-white/20 hover:border-blue-400">
+              Lihat Semua Portofolio <ChevronRight size={18} />
+            </button>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {featuredProjects.map((project, idx) => (
+              <FadeIn key={project.title} delay={idx * 0.1} direction="up" className="group flex flex-col h-full bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 overflow-hidden hover:border-blue-500/50 transition-colors">
+                <div className="p-8 pb-6 flex-1">
+                  <h4 className="text-2xl font-bold mb-4 group-hover:text-blue-400 transition-colors">
                     {project.title}
-                  </h3>
-                  <p className="text-slate-500 text-sm line-clamp-3 leading-relaxed">
+                  </h4>
+                  <p className="text-slate-400 leading-relaxed font-medium">
                     {project.description}
                   </p>
                 </div>
-                <div className="mt-auto p-8 pt-0">
+                <div className="p-8 pt-0 mt-auto">
                   <div className="flex flex-wrap gap-2">
                     {project.tags.slice(0, 3).map((tag) => (
-                      <span key={tag} className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-2 py-1 bg-slate-50 rounded-md">
+                      <span key={tag} className="text-xs font-semibold text-slate-300 bg-slate-700/50 px-3 py-1.5 rounded-md">
                         {tag}
                       </span>
                     ))}
                   </div>
                 </div>
-              </div>
+              </FadeIn>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Skills Grid */}
-      <section className="bg-[#020617] text-white py-32 relative overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
-        <div className="max-w-6xl mx-auto px-6 relative z-10">
-          <div className="text-center mb-20 space-y-4">
-            <h2 className="text-4xl font-bold tracking-tight text-white">Toolkit Teknis</h2>
-            <p className="text-slate-400 max-w-xl mx-auto">Teknologi yang saya gunakan untuk membawa konsep ke dunia digital.</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-12">
-            {Object.entries(skills).map(([category, items]) => (
-              <div key={category} className="space-y-6">
-                <h3 className="text-blue-400 text-xs font-black uppercase tracking-[0.2em]">{category}</h3>
-                <div className="flex flex-wrap gap-3">
-                  {items.map((skill) => (
-                    <span key={skill} className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-slate-300 text-sm font-medium hover:bg-white/10 hover:text-white transition-all cursor-default">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section className="max-w-6xl mx-auto px-6 py-32">
-        <div className="relative rounded-[3rem] bg-blue-600 p-12 md:p-24 overflow-hidden text-center shadow-2xl shadow-blue-500/20">
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
-          <div className="relative z-10 max-w-2xl mx-auto space-y-8">
-            <h2 className="text-4xl md:text-5xl font-black text-white leading-tight">
-              Mari membangun sesuatu yang hebat bersama
-            </h2>
-            <p className="text-blue-100 text-lg opacity-80 font-medium leading-relaxed">
-              Terbuka untuk kolaborasi proyek, freelance, atau peluang kerja tetap.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
-              <a href="mailto:gwidoputra@gmail.com" className="bg-white text-blue-600 hover:bg-blue-50 px-10 py-5 rounded-2xl font-bold transition-all hover:scale-105 shadow-xl">
-                <Mail size={18} /> Kirim Email
-              </a>
-              <a href="https://www.linkedin.com/in/gwido-putra-wijaya/" target="_blank" className="bg-blue-700/50 text-white hover:bg-blue-700/70 border border-blue-400/30 px-10 py-5 rounded-2xl font-bold transition-all">
-                <Linkedin size={18} /> LinkedIn
-              </a>
-            </div>
+      {/* Call To Action */}
+      <section className="py-32 bg-blue-600 relative z-10">
+        <div className="max-w-4xl mx-auto px-6 text-center space-y-10">
+          <h2 className="text-4xl md:text-6xl font-bold text-white leading-tight">
+            Siap untuk mendigitalisasi bisnis Anda?
+          </h2>
+          <p className="text-xl text-blue-100 font-medium max-w-2xl mx-auto">
+            Jadwalkan konsultasi gratis hari ini. Saya akan membantu Anda merumuskan teknologi yang tepat untuk eskalasi bisnis Anda.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+            <a href="mailto:gwidoputra@gmail.com" className="bg-white text-blue-600 hover:bg-slate-50 px-8 py-4 rounded-xl font-bold transition-all shadow-xl hover:-translate-y-1 text-lg">
+              Hubungi Saya
+            </a>
+            <button onClick={() => setShowResume(true)} className="bg-transparent text-white border-2 border-blue-400 hover:bg-blue-700 px-8 py-4 rounded-xl font-bold transition-all text-lg">
+              Pelajari Lebih Lanjut
+            </button>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-slate-100 py-16 text-center">
-        <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">
-          © {new Date().getFullYear()} Gwido Putra Wijaya · Dibuat dengan React & TanStack
-        </p>
+      <footer className="bg-slate-900 text-slate-400 py-16 border-t border-slate-800 relative z-10">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid md:grid-cols-4 gap-12 mb-12">
+            <div className="md:col-span-2 space-y-6">
+              <div className="flex items-center gap-2">
+                <Layers className="text-blue-500 w-6 h-6" />
+                <span className="text-xl font-bold tracking-tight text-white">gwidoputra</span>
+              </div>
+              <p className="max-w-sm text-sm leading-relaxed">
+                Menyediakan layanan pengembangan perangkat lunak inovatif dan solusi IT khusus untuk bisnis di era digital.
+              </p>
+            </div>
+            <div>
+              <h4 className="text-white font-bold mb-6">Navigasi</h4>
+              <ul className="space-y-4 text-sm">
+                <li><a href="#services" className="hover:text-blue-400 transition-colors">Layanan Utama</a></li>
+                <li><a href="#expertise" className="hover:text-blue-400 transition-colors">TechStack</a></li>
+                <li><a href="#portfolio" className="hover:text-blue-400 transition-colors">Studi Kasus</a></li>
+                <li><button onClick={() => setShowResume(true)} className="hover:text-blue-400 transition-colors">Short Resume</button></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-white font-bold mb-6">Kontak</h4>
+              <ul className="space-y-4 text-sm">
+                <li>Email: gwidoputra@gmail.com</li>
+                <li>Lokasi: Malang, Jawa Timur</li>
+                <li className="pt-4 flex gap-4">
+                  <a href="https://linkedin.com/in/gwido-putra-wijaya" className="text-slate-400 hover:text-white transition-colors"><Linkedin size={20} /></a>
+                  <a href="https://github.com/GwidoPutra" className="text-slate-400 hover:text-white transition-colors"><Github size={20} /></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium">
+            <p>© {new Date().getFullYear()} GP (Gwido Putra Wijaya). All rights reserved.</p>
+            <div className="flex gap-6">
+              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+              <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+            </div>
+          </div>
+        </div>
       </footer>
+
+      {/* Modal Render */}
+      <AnimatePresence>
+        {showProjects && <ProjectsModal onClose={() => setShowProjects(false)} />}
+        {showResume && <ResumeModal onClose={() => setShowResume(false)} />}
+      </AnimatePresence>
+      
+      {/* Interactive Components */}
+      <CLITerminal />
+
     </div>
   )
 }

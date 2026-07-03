@@ -1,39 +1,33 @@
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
+import { createRootRoute, useLocation, Outlet } from '@tanstack/react-router'
 import { Toaster } from "sonner"
+import { AnimatePresence, motion } from 'framer-motion'
+import { ThemeProvider } from '../contexts/ThemeContext'
 
 import '../styles.css'
 
 export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      {
-        charSet: 'utf-8',
-      },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
-      },
-      {
-        title: 'Gwido Putra — Profil',
-      },
-    ],
-  }),
-  shellComponent: RootDocument,
+  component: RootComponent,
 })
 
-function RootDocument({ children }: { children: React.ReactNode }) {
+function RootComponent() {
+  const location = useLocation()
+  
   return (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-
-        <Toaster position="top-right" richColors />
-
-        <Scripts />
-      </body>
-    </html>
+    <ThemeProvider>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={location.pathname}
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -15 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="min-h-screen"
+        >
+          <Outlet />
+        </motion.div>
+      </AnimatePresence>
+      
+      <Toaster position="top-right" richColors />
+    </ThemeProvider>
   )
 }
