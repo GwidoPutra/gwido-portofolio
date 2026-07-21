@@ -28,7 +28,12 @@ import {
   Linkedin,
   Menu,
   Sun,
-  Moon
+  Moon,
+  MessageCircle,
+  Send,
+  Hash,
+  Quote,
+  AtSign,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTheme } from '../contexts/ThemeContext'
@@ -201,6 +206,13 @@ function ProjectsModal({ onClose }: { onClose: () => void }) {
   )
 }
 
+interface Note {
+  id: string
+  name: string
+  message: string
+  formattedDate: string
+}
+
 // 3. Komponen Utama Halaman Utama
 function CompanyProfile() {
   const featuredProjects = allProjects.slice(0, 3);
@@ -208,6 +220,60 @@ function CompanyProfile() {
   const [showResume, setShowResume] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { theme, toggleTheme } = useTheme()
+
+  const [notes, setNotes] = useState<Note[]>([])
+  const [name, setName] = useState('')
+  const [message, setMessage] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetch('/api/guestbook')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.notes && data.notes.length > 0) {
+          setNotes(data.notes)
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false))
+  }, [])
+
+  async function handleGuestbookSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    const trimmedName = name.trim()
+    const trimmedMessage = message.trim()
+    if (!trimmedName || !trimmedMessage) {
+      toast.error('Harap isi nama dan pesan')
+      return
+    }
+    setSubmitting(true)
+    try {
+      const res = await fetch('/api/guestbook', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: trimmedName, message: trimmedMessage }),
+      })
+      if (!res.ok) throw new Error('Failed')
+      const data = await res.json()
+      setNotes((prev) => [data.note, ...prev])
+      setName('')
+      setMessage('')
+      toast.success('Catatanmu berhasil ditambahkan!')
+    } catch {
+      setNotes((prev) => [{
+        id: Date.now().toString(),
+        name: trimmedName,
+        message: trimmedMessage,
+        formattedDate: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+      }, ...prev])
+      setName('')
+      setMessage('')
+      toast.success('Catatanmu berhasil ditambahkan!')
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   return (
     <div className={`min-h-screen font-sans transition-colors duration-300 ${theme === 'dark' ? 'bg-[#020617] text-white' : 'bg-white text-slate-900'} selection:bg-blue-100 selection:text-blue-900 dark:selection:bg-blue-500/20 dark:selection:text-blue-200`}>
@@ -527,6 +593,125 @@ function CompanyProfile() {
                 </div>
               </FadeIn>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Guestbook Section */}
+      <section id="guestbook" className={`py-32 transition-colors duration-300 ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-50'}`}>
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <h2 className="text-blue-600 font-bold uppercase tracking-widest text-sm">Guestbook</h2>
+            <h3 className={`text-4xl md:text-5xl font-bold tracking-tight transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+              Tinggalkan Jejak<span className="text-blue-600">.</span>
+            </h3>
+            <p className={`text-lg leading-relaxed font-medium transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
+              Tulis pesan, salam, atau roast — semua orang bisa baca.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8">
+            <div className={`rounded-3xl shadow-lg border overflow-hidden ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-100'}`}>
+              <div className={`px-8 py-6 border-b ${theme === 'dark' ? 'border-slate-800' : 'border-slate-100'}`}>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className={`p-2.5 rounded-xl ${theme === 'dark' ? 'bg-slate-800' : 'bg-slate-100'}`}>
+                      <MessageCircle size={18} className="text-blue-600" />
+                    </div>
+                    <div>
+                      <h2 className={`text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Guestbook</h2>
+                      <p className={`text-xs font-semibold ${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'}`}>
+                        {notes.length} notes
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-8 max-h-[600px] overflow-y-auto">
+                {loading ? (
+                  <div className="space-y-4">
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} className={`animate-pulse rounded-2xl p-5 ${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-100'}`}>
+                        <div className={`h-3 w-20 rounded mb-3 ${theme === 'dark' ? 'bg-slate-700' : 'bg-slate-200'}`} />
+                        <div className={`h-4 w-3/4 rounded mb-2 ${theme === 'dark' ? 'bg-slate-700' : 'bg-slate-200'}`} />
+                        <div className={`h-3 w-24 rounded ${theme === 'dark' ? 'bg-slate-700' : 'bg-slate-200'}`} />
+                      </div>
+                    ))}
+                  </div>
+                ) : notes.length === 0 ? (
+                  <div className={`text-center py-12 ${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'}`}>
+                    <MessageCircle size={40} className="mx-auto mb-4 opacity-40" />
+                    <p className="text-sm font-semibold">Belum ada catatan</p>
+                    <p className="text-xs mt-1">Jadilah yang pertama!</p>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {notes.map((note) => (
+                      <div key={note.id} className={`group rounded-2xl p-5 border transition-all hover:shadow-md ${theme === 'dark' ? 'bg-slate-800/40 border-slate-700/50 hover:border-slate-600' : 'bg-slate-50 border-slate-100 hover:border-slate-200'}`}>
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-black uppercase shrink-0 ${theme === 'dark' ? 'bg-slate-700 text-slate-300' : 'bg-slate-200 text-slate-600'}`}>
+                              {note.name.charAt(0)}
+                            </div>
+                            <span className={`text-sm font-bold truncate ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{note.name}</span>
+                          </div>
+                          <span className={`text-[10px] font-semibold shrink-0 ${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'}`}>{note.formattedDate}</span>
+                        </div>
+                        <p className={`mt-3 text-sm leading-relaxed font-medium pl-10.5 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>{note.message}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className={`rounded-3xl shadow-lg border ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-100'}`}>
+              <div className={`px-8 py-6 border-b ${theme === 'dark' ? 'border-slate-800' : 'border-slate-100'}`}>
+                <div className="flex items-center gap-3">
+                  <div className={`p-2.5 rounded-xl ${theme === 'dark' ? 'bg-slate-800' : 'bg-slate-100'}`}>
+                    <Hash size={18} className="text-blue-600" />
+                  </div>
+                  <div>
+                    <h2 className={`text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Leave a Note</h2>
+                    <p className={`text-xs font-semibold ${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'}`}>Katakan sesuatu...</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-8">
+                <form onSubmit={handleGuestbookSubmit} className="space-y-5">
+                  <div>
+                    <label htmlFor="gb-name" className={`block text-sm font-semibold mb-2 ${theme === 'dark' ? 'text-slate-300' : 'text-slate-700'}`}>
+                      YOUR NAME <span className="text-blue-600">*</span>
+                    </label>
+                    <div className="relative">
+                      <AtSign size={14} className={`absolute left-3.5 top-1/2 -translate-y-1/2 ${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'}`} />
+                      <input id="gb-name" type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Alex Rivera" maxLength={50}
+                        className={`w-full pl-9 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors text-sm ${theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white placeholder-slate-500' : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400'}`} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="gb-message" className={`block text-sm font-semibold mb-2 ${theme === 'dark' ? 'text-slate-300' : 'text-slate-700'}`}>
+                      YOUR NOTE <span className="text-blue-600">*</span>
+                    </label>
+                    <div className="relative">
+                      <Quote size={14} className={`absolute left-3.5 top-3.5 ${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'}`} />
+                      <textarea id="gb-message" value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Say something nice... or roast me 😄" maxLength={500} rows={4}
+                        className={`w-full pl-9 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors resize-none text-sm ${theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white placeholder-slate-500' : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400'}`} />
+                    </div>
+                    <p className={`text-[10px] font-medium mt-1.5 text-right ${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'}`}>{message.length}/500</p>
+                  </div>
+
+                  <button type="submit" disabled={submitting}
+                    className={`w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold transition-all shadow-lg text-sm ${submitting ? 'opacity-60 cursor-not-allowed' : ''} ${theme === 'dark' ? 'bg-slate-800 hover:bg-blue-600 text-white' : 'bg-slate-900 hover:bg-blue-600 text-white'}`}>
+                    <Send size={16} />
+                    {submitting ? 'Mengirim...' : 'Post Note'}
+                  </button>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       </section>
