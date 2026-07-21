@@ -11,38 +11,53 @@ function formatDate(iso: string) {
   return `${month} ${day}, ${hours}:${minutes}`
 }
 
+function sendJson(res: any, status: number, body: unknown) {
+  res.statusCode = status
+  res.setHeader('Content-Type', 'application/json')
+  res.end(JSON.stringify(body))
+}
+
 export default async function handler(req: any, res: any) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
 
   if (req.method === 'OPTIONS') {
-    res.status(200).end()
+    res.statusCode = 200
+    res.end()
     return
   }
 
   if (req.method === 'GET') {
-    const notes = await prisma.guestbook.findMany({ orderBy: { date: 'desc' } })
-    res.status(200).json({
-      notes: notes.map((n) => ({ ...n, formattedDate: formatDate(n.date.toISOString()) })),
-    })
+    try {
+      const notes = await prisma.guestbook.findMany({ orderBy: { date: 'desc' } })
+      sendJson(res, 200, {
+        notes: notes.map((n) => ({
+          ...n,
+          formattedDate: formatDate(n.date.toISOString()),
+        })),
+      })
+    } catch (err) {
+      console.error('Guestbook GET error:', err)
+      sendJson(res, 500, { error: 'Failed to load notes' })
+    }
     return
   }
 
   if (req.method === 'POST') {
     try {
-      const { name, message } = req.body
+      const { name, message } = req.body ?? {}
 
       if (!name || !message) {
-        res.status(400).json({ error: 'Name and message are required' })
+        sendJson(res, 400, { error: 'Name and message are required' })
         return
       }
 
-      const trimmedName = name.trim().slice(0, 50)
-      const trimmedMessage = message.trim().slice(0, 500)
+      const trimmedName = String(name).trim().slice(0, 50)
+      const trimmedMessage = String(message).trim().slice(0, 500)
 
       if (!trimmedName || !trimmedMessage) {
-        res.status(400).json({ error: 'Name and message cannot be empty' })
+        sendJson(res, 400, { error: 'Name and message cannot be empty' })
         return
       }
 
@@ -50,17 +65,18 @@ export default async function handler(req: any, res: any) {
         data: { name: trimmedName, message: trimmedMessage },
       })
 
-      res.status(201).json({
+      sendJson(res, 201, {
         note: {
           ...note,
           formattedDate: formatDate(note.date.toISOString()),
         },
       })
     } catch (err) {
-      res.status(500).json({ error: 'Failed to save note' })
+      console.error('Guestbook POST error:', err)
+      sendJson(res, 500, { error: 'Failed to save note' })
     }
     return
   }
 
-  res.status(405).json({ error: 'Method not allowed' })
+  sendJson(res, 405, { error: 'Method not allowed' })
 }

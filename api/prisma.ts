@@ -1,10 +1,42 @@
 import { PrismaClient } from '../src/generated/prisma/client.ts'
-import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3'
-import Database from 'better-sqlite3'
-import path from 'path'
+import { PrismaPg } from '@prisma/adapter-pg'
+import { Pool } from 'pg'
 
-const dbPath = process.env.DATABASE_URL?.replace('file:', '') || path.join(process.cwd(), 'prisma', 'dev.db')
-const connection = new Database(dbPath)
-const adapter = new PrismaBetterSqlite3(connection)
+const globalForPrisma = globalThis as unknown as {
+  prisma?: PrismaClient
+  pgPool?: Pool
+}
 
-export const prisma = new PrismaClient({ adapter })
+function getPool() {
+  if (globalForPrisma.pgPool) return globalForPrisma.pgPool
+
+  const connectionString = process.env.DATABASE_URL
+  if (!connectionString) {
+    throw new Error('DATABASE_URL is not set')
+  }
+
+  // Neon / managed Postgres often need SSL in production
+  const needsSsl =
+    process.env.NODE_ENV === 'production' ||
+    /neon\.tech|supabase\.co|vercel-storage|sslmode=require/i.test(connectionString)
+
+  const pool = new Pool({
+    connectionString,
+    ssl: needsSsl ? { rejectUnauthorized: false } : undefined,
+    max: 5,
+  })
+
+  globalForPrisma.pgPool = pool
+  return pool
+}
+
+function getPrisma() {
+  if (globalForPrisma.prisma) return globalForPrisma.prisma
+
+  const adapter = new PrismaPg(getPool())
+  const client = new PrismaClient({ adapter })
+  globalForPrisma.prisma = client
+  return client
+}
+
+export const prisma = getPrisma()

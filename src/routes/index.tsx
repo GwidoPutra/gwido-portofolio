@@ -229,13 +229,18 @@ function CompanyProfile() {
 
   useEffect(() => {
     fetch('/api/guestbook')
-      .then((res) => res.json())
+      .then(async (res) => {
+        if (!res.ok) throw new Error('Failed to load guestbook')
+        return res.json()
+      })
       .then((data) => {
-        if (data.notes && data.notes.length > 0) {
+        if (Array.isArray(data.notes)) {
           setNotes(data.notes)
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        toast.error('Gagal memuat guestbook')
+      })
       .finally(() => setLoading(false))
   }, [])
 
@@ -254,22 +259,20 @@ function CompanyProfile() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: trimmedName, message: trimmedMessage }),
       })
-      if (!res.ok) throw new Error('Failed')
-      const data = await res.json()
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to save note')
+      }
+      if (!data.note) {
+        throw new Error('Invalid response from server')
+      }
       setNotes((prev) => [data.note, ...prev])
       setName('')
       setMessage('')
       toast.success('Catatanmu berhasil ditambahkan!')
-    } catch {
-      setNotes((prev) => [{
-        id: Date.now().toString(),
-        name: trimmedName,
-        message: trimmedMessage,
-        formattedDate: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
-      }, ...prev])
-      setName('')
-      setMessage('')
-      toast.success('Catatanmu berhasil ditambahkan!')
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Gagal menyimpan catatan'
+      toast.error(msg)
     } finally {
       setSubmitting(false)
     }
