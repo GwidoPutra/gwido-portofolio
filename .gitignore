@@ -1,8 +1,49 @@
-# Local Netlify folder
-.netlify
+# Dependencies
 node_modules
 
+# Environment & secrets
+.env
+.env.*
+!.env.example
+
+# Local databases
+*.db
+*.db-journal
+dev.db
+/prisma/dev.db
+
+# Prisma generated client
 /generated/prisma
 /src/generated/prisma
-/prisma/dev.db
 /prisma/migrations
+
+# Build & cache
+dist
+.tanstack
+.content-collections/cache
+*.local
+.cache
+
+# Hosting local state
+.netlify
+.vercel
+
+# Logs & debug
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor
+.idea
+.vscode/*
+!.vscode/extensions.json
+*.swp
+*.swo
