@@ -39,17 +39,18 @@ export default [
   },
   {
     "title": "Pantry Vision",
-    "description": "Aplikasi deteksi jenis dan kesegaran buah dan sayur, perhitungan kandungan nutrisi, dan rekomendasi menu",
+    "description": "Sistem web + IoT untuk deteksi jenis & kesegaran buah/sayur, hitung nutrisi, dan rekomendasi menu berbasis machine learning.",
     "tags": [
-      "Node",
+      "React",
+      "TypeScript",
+      "Node.js",
       "Supabase",
-      "IOT",
-      "Machine Learning",
-      "Typescript",
-      "React"
+      "IoT",
+      "Machine Learning"
     ],
     "github": "https://github.com/GwidoPutra/Pantry-vision/",
-    "content": "Sistem Web terintegrasi IoT untuk mengelola inventori dan rekomendasi menu.\r\n\r\nFitur:\r\n\r\n- Manajemen inventori\r\n- Deteksi jenis buah dan sayur\r\n- Rekomendasi menu\r\n- Hitung kandungan nutrisi",
+    "featured": true,
+    "content": "Sistem web terintegrasi IoT untuk mengelola inventori dapur, mendeteksi kondisi bahan makanan, dan merekomendasikan menu.\n\nFitur:\n\n- Manajemen inventori bahan makanan\n- Deteksi jenis buah dan sayur\n- Estimasi kesegaran bahan\n- Perhitungan kandungan nutrisi\n- Rekomendasi menu berdasarkan stok",
     "_meta": {
       "filePath": "pantry-vision.md",
       "fileName": "pantry-vision.md",

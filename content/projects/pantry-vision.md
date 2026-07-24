@@ -1,15 +1,17 @@
 ---
 title: "Pantry Vision"
-description: "Aplikasi deteksi jenis dan kesegaran buah dan sayur, perhitungan kandungan nutrisi, dan rekomendasi menu"
-tags: ["Node", "Supabase", "IOT", "Machine Learning", "Typescript", "React"]
+description: "Sistem web + IoT untuk deteksi jenis & kesegaran buah/sayur, hitung nutrisi, dan rekomendasi menu berbasis machine learning."
+tags: ["React", "TypeScript", "Node.js", "Supabase", "IoT", "Machine Learning"]
 github: "https://github.com/GwidoPutra/Pantry-vision/"
+featured: true
 ---
 
-Sistem Web terintegrasi IoT untuk mengelola inventori dan rekomendasi menu.
+Sistem web terintegrasi IoT untuk mengelola inventori dapur, mendeteksi kondisi bahan makanan, dan merekomendasikan menu.
 
 Fitur:
 
-- Manajemen inventori
+- Manajemen inventori bahan makanan
 - Deteksi jenis buah dan sayur
-- Rekomendasi menu
-- Hitung kandungan nutrisi
+- Estimasi kesegaran bahan
+- Perhitungan kandungan nutrisi
+- Rekomendasi menu berdasarkan stok
