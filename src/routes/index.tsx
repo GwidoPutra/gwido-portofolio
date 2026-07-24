@@ -215,7 +215,10 @@ interface Note {
 
 // 3. Komponen Utama Halaman Utama
 function CompanyProfile() {
-  const featuredProjects = allProjects.slice(0, 3);
+  const featuredProjects = [
+    ...allProjects.filter((p) => p.featured),
+    ...allProjects.filter((p) => !p.featured),
+  ].slice(0, 3)
   const [showProjects, setShowProjects] = useState(false)
   const [showResume, setShowResume] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
