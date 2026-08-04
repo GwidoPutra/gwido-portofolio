@@ -5,7 +5,6 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { FadeIn } from '../components/ui/animations/FadeIn'
 import { TextReveal } from '../components/ui/animations/TextReveal'
 import { ProfileCard } from '../components/ui/animations/ProfileCard'
-import { Lightfall } from '../components/ui/animations/Lightfall'
 import { CLITerminal } from '../components/CLITerminal'
 import { TechStackGrid } from '../components/BouncingTechStack'
 import { ResumeModal } from '../components/ResumeModal'
@@ -49,16 +48,19 @@ const services = [
     icon: Globe,
     title: 'Web Development',
     description: 'Pengembangan aplikasi web responsif berkinerja tinggi dengan arsitektur modern (React, Next.js, Node.js) yang dirancang untuk skalabilitas dan pengalaman pengguna maksimal.',
+    cardClass: 'brutal-card-yellow',
   },
   {
     icon: Smartphone,
     title: 'Mobile Solutions',
     description: 'Pembuatan aplikasi lintas platform (cross-platform) untuk iOS dan Android yang mulus, stabil, dan intuitif menggunakan teknologi terdepan.',
+    cardClass: 'brutal-card-blue',
   },
   {
     icon: Database,
     title: 'System Architecture',
     description: 'Perancangan basis data dan infrastruktur backend (API, Cloud) yang aman, efisien, serta siap melayani beban trafik yang masif.',
+    cardClass: 'brutal-card-purple',
   },
 ]
 
@@ -68,17 +70,29 @@ const values = [
     icon: CheckCircle2,
     title: 'Inovasi Berkelanjutan',
     description: 'Saya terus mengadopsi tumpukan teknologi terbaru untuk memastikan produk Anda tidak tertinggal zaman.',
+    cardClass: 'bg-brutal-yellow',
   },
   {
     icon: BarChart,
     title: 'Berorientasi Bisnis',
     description: 'Solusi yang saya bangun berfokus penuh pada penyelesaian masalah dan pencapaian target bisnis Anda.',
+    cardClass: 'bg-brutal-cyan',
   },
   {
     icon: Code2,
     title: 'Kualitas Kode Industri',
     description: 'Setiap baris kode ditulis dengan standar industri terbaik demi keamanan dan kemudahan pemeliharaan.',
+    cardClass: 'bg-brutal-green',
   },
+]
+
+const tickerItems = [
+  'WEB DEVELOPMENT',
+  'MOBILE SOLUTIONS',
+  'SYSTEM ARCHITECTURE',
+  'UI/UX DESIGN',
+  'AI INTEGRATION',
+  'FULL-STACK ENGINEERING',
 ]
 
 // 2. Komponen Modal Portofolio
@@ -94,102 +108,106 @@ function ProjectsModal({ onClose }: { onClose: () => void }) {
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
-    
+
     const handleEscKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose()
       }
     }
-    
+
     document.addEventListener('keydown', handleEscKey)
-    
-    return () => { 
-      document.body.style.overflow = '' 
+
+    return () => {
+      document.body.style.overflow = ''
       document.removeEventListener('keydown', handleEscKey)
     }
   }, [onClose])
+
+  const badgeBg = theme === 'dark' ? 'bg-brutal-red' : 'bg-brutal-red'
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+      transition={{ duration: 0.2 }}
+      className="fixed inset-0 z-[100] bg-brutal-ink/70 flex items-center justify-center p-4"
       onClick={onClose}
     >
       <motion.div
         initial={{ opacity: 0, y: 40, scale: 0.96 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 40, scale: 0.96 }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className={`rounded-3xl shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col overflow-hidden transition-colors duration-300 ${theme === 'dark' ? 'bg-slate-900 border border-slate-800' : 'bg-white'}`}
+        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        className="brutal-card w-full max-w-5xl max-h-[90vh] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className={`flex items-start justify-between p-8 pb-6 border-b shrink-0 transition-colors duration-300 ${theme === 'dark' ? 'border-slate-800' : 'border-slate-100'}`}>
+        <div className="flex items-start justify-between p-8 pb-6 border-b-2 border-foreground shrink-0 bg-brutal-yellow">
           <div className="space-y-2">
-            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-blue-600 text-[10px] font-black tracking-widest uppercase transition-colors duration-300 ${theme === 'dark' ? 'bg-blue-500/10 border-blue-500/20' : 'bg-blue-50 border-blue-100'}`}>
+            <div className="inline-flex items-center gap-2 bg-brutal-ink text-brutal-yellow px-3 py-1 font-black text-[10px] tracking-widest uppercase">
               <Sparkles size={12} /> Portofolio Karya
             </div>
-            <h2 className={`text-3xl font-black transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-              Projects<span className="text-blue-600">.</span>
+            <h2 className="text-3xl font-black text-brutal-ink uppercase tracking-tight">
+              Projects<span className="text-brutal-red">.</span>
             </h2>
-            <p className={`text-sm font-medium transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>Eksplorasi solusi digital melalui kode.</p>
+            <p className="text-sm font-bold text-brutal-ink/70">Eksplorasi solusi digital melalui kode.</p>
           </div>
           <button
             onClick={onClose}
-            className={`p-2 rounded-xl transition-colors ${theme === 'dark' ? 'hover:bg-slate-800 text-slate-400 hover:text-white' : 'hover:bg-slate-100 text-slate-400 hover:text-slate-900'}`}
+            className="border-2 border-foreground bg-card text-foreground p-2 font-black transition-all"
+            aria-label="Close modal"
           >
             <X size={22} />
           </button>
         </div>
 
         {/* Modal Body - Scrollable */}
-        <div className="overflow-y-auto p-8 flex-1">
+        <div className="overflow-y-auto p-8 flex-1 bg-background">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {allProjects.map((project) => (
+            {allProjects.map((project, idx) => (
               <div
                 key={project._meta.path}
-                className={`group flex flex-col rounded-2xl border overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ${theme === 'dark' ? 'bg-slate-800/50 border-slate-700' : 'bg-slate-50 border-slate-100'}`}
+                className="group flex flex-col border-2 border-foreground bg-card hover:-translate-y-1 transition-all duration-200"
+                style={{ boxShadow: idx % 3 === 0 ? '6px 6px 0 0 var(--border)' : '4px 4px 0 0 var(--border)' }}
               >
                 <div className="p-6">
                   <div className="flex justify-between items-start mb-4">
-                    <div className={`p-3 rounded-xl transition-all shadow-sm ${theme === 'dark' ? 'bg-slate-800 text-slate-400 group-hover:bg-blue-500/10 group-hover:text-blue-400' : 'bg-white text-slate-400 group-hover:text-blue-600 group-hover:bg-blue-50'}`}>
+                    <div className="p-3 border-2 border-foreground bg-brutal-yellow text-brutal-ink">
                       <FolderOpen size={20} />
                     </div>
                     {/* Indikator Status Proyek */}
                     <div className="flex items-center gap-2">
-                      <span className={`w-2 h-2 rounded-full ${theme === 'dark' ? 'bg-blue-400' : 'bg-blue-500'} animate-pulse`}></span>
-                      <span className={`text-[10px] font-bold uppercase tracking-widest ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`}>Available</span>
+                      <span className="w-2 h-2 bg-brutal-green animate-pulse"></span>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-brutal-green">Available</span>
                     </div>
                   </div>
-                  <h3 className={`text-xl font-bold mb-2 group-hover:text-blue-600 transition-colors ${theme === 'dark' ? 'text-white group-hover:text-blue-400' : 'text-slate-900'}`}>
+                  <h3 className="text-xl font-black uppercase tracking-tight mb-2 text-foreground group-hover:text-brutal-blue transition-colors">
                     {project.title}
                   </h3>
-                  <p className={`text-sm leading-relaxed line-clamp-2 mb-4 font-medium transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
+                  <p className="text-sm leading-relaxed line-clamp-2 mb-4 font-bold text-muted-foreground">
                     {project.description}
                   </p>
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.tags.slice(0, 4).map((tag) => (
-                      <span key={tag} className={`text-[10px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-wide transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400 bg-slate-800 border border-slate-700' : 'text-slate-500 bg-white border border-slate-200'}`}>
+                      <span key={tag} className="brutal-chip">
                         {tag}
                       </span>
                     ))}
                   </div>
-                  <div className={`pt-4 border-t flex gap-5 transition-colors duration-300 ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>
+                  <div className={`pt-4 border-t-2 border-foreground flex gap-5 ${theme === 'dark' ? 'border-muted' : 'border-muted'}`}>
                     {project.github && (
                       <a href={project.github} target="_blank" rel="noopener noreferrer"
-                        className={`flex items-center gap-1.5 text-[10px] font-black transition-colors tracking-widest uppercase ${theme === 'dark' ? 'text-slate-400 hover:text-white' : 'text-slate-400 hover:text-slate-900'}`}>
+                        className="flex items-center gap-1.5 text-[10px] font-black transition-colors tracking-widest uppercase text-muted-foreground hover:text-foreground">
                         <Github size={14} /> GitHub
                       </a>
                     )}
                     <button onClick={() => handleUnderDevelopment('Live Demo')}
-                      className={`flex items-center gap-1.5 text-[10px] font-black transition-colors tracking-widest uppercase ${theme === 'dark' ? 'text-slate-400 hover:text-blue-400' : 'text-slate-400 hover:text-blue-600'}`}>
+                      className="flex items-center gap-1.5 text-[10px] font-black transition-colors tracking-widest uppercase text-muted-foreground hover:text-brutal-blue">
                       <ExternalLink size={14} /> Live Demo
                     </button>
                     <button onClick={() => handleUnderDevelopment('Dokumentasi')}
-                      className={`flex items-center gap-1.5 text-[10px] font-black transition-colors tracking-widest uppercase ${theme === 'dark' ? 'text-slate-400 hover:text-green-400' : 'text-slate-400 hover:text-green-600'}`}>
+                      className="flex items-center gap-1.5 text-[10px] font-black transition-colors tracking-widest uppercase text-muted-foreground hover:text-brutal-green">
                       <FileText size={14} /> Docs
                     </button>
                   </div>
@@ -197,7 +215,7 @@ function ProjectsModal({ onClose }: { onClose: () => void }) {
               </div>
             ))}
           </div>
-          <p className={`text-center text-xs font-bold uppercase tracking-widest mt-8 pt-8 border-t transition-colors duration-300 ${theme === 'dark' ? 'text-slate-500 border-slate-800' : 'text-slate-400 border-slate-100'}`}>
+          <p className="text-center text-xs font-black uppercase tracking-widest mt-8 pt-8 border-t-2 border-foreground text-muted-foreground">
             Total {allProjects.length} Proyek Terdaftar
           </p>
         </div>
@@ -281,50 +299,52 @@ function CompanyProfile() {
     }
   }
 
-  return (
-    <div className={`min-h-screen font-sans transition-colors duration-300 ${theme === 'dark' ? 'bg-[#020617] text-white' : 'bg-white text-slate-900'} selection:bg-blue-100 selection:text-blue-900 dark:selection:bg-blue-500/20 dark:selection:text-blue-200`}>
+  const inputClass = `w-full pl-10 pr-4 py-3 border-2 border-foreground bg-card text-foreground placeholder:text-muted-foreground outline-none focus:bg-brutal-yellow/20 transition-colors text-sm font-bold`
 
-      {/* Navbar */}
-      <nav className={`fixed top-0 inset-x-0 z-50 backdrop-blur-md border-b transition-all duration-300 ${theme === 'dark' ? 'bg-[#020617]/80 border-slate-800' : 'bg-white/80 border-slate-100'}`}>
+  return (
+    <div className={`min-h-screen transition-colors duration-300 ${theme === 'dark' ? 'bg-brutal-dark text-[#f5f0e1]' : 'bg-brutal-cream text-brutal-ink'}`}>
+
+      {/* ================= NAVBAR ================= */}
+      <nav className={`fixed top-0 inset-x-0 z-50 border-b-4 border-foreground transition-colors duration-300 ${theme === 'dark' ? 'bg-brutal-dark' : 'bg-brutal-cream'}`}>
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-600/20">
-              <Layers className="text-white w-5 h-5" />
+            <div className="w-11 h-11 bg-brutal-yellow border-2 border-foreground flex items-center justify-center brutal-shadow-sm">
+              <Layers className="text-brutal-ink w-5 h-5" />
             </div>
-            <span className={`text-xl font-bold tracking-tight ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>gwidoputra</span>
+            <span className="text-xl font-black uppercase tracking-tight text-foreground">gwidoputra</span>
           </div>
-          <div className="hidden md:flex items-center gap-8 text-sm font-medium">
-            <a href="#services" className={`hover:text-blue-600 transition-colors ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>Layanan</a>
-            <a href="#expertise" className={`hover:text-blue-600 transition-colors ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>TechStack</a>
-            <a href="#portfolio" className={`hover:text-blue-600 transition-colors ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>Portofolio</a>
-            <button onClick={() => setShowResume(true)} className={`hover:text-blue-600 transition-colors ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>Short Resume</button>
-            <Link to="/contact" className={`hover:text-blue-600 transition-colors ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>Kontak</Link>
+          <div className="hidden md:flex items-center gap-7 text-sm font-black uppercase tracking-wide">
+            <a href="#services" className="hover:text-brutal-blue transition-colors text-foreground">Layanan</a>
+            <a href="#expertise" className="hover:text-brutal-blue transition-colors text-foreground">TechStack</a>
+            <a href="#portfolio" className="hover:text-brutal-blue transition-colors text-foreground">Portofolio</a>
+            <button onClick={() => setShowResume(true)} className="hover:text-brutal-blue transition-colors text-foreground">Short Resume</button>
+            <Link to="/contact" className="hover:text-brutal-blue transition-colors text-foreground">Kontak</Link>
           </div>
           <div className="hidden md:flex items-center gap-4">
             <button
               onClick={toggleTheme}
-              className={`p-2 rounded-lg transition-colors ${theme === 'dark' ? 'hover:bg-slate-800 text-slate-400' : 'hover:bg-slate-100 text-slate-600'}`}
+              className="p-2 border-2 border-foreground bg-card text-foreground hover:bg-brutal-yellow transition-colors"
               aria-label="Toggle theme"
             >
-              {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
             </button>
-            <a href="mailto:gwidoputra@gmail.com" className="bg-slate-900 hover:bg-blue-600 text-white px-6 py-2.5 rounded-full text-sm font-medium transition-all shadow-md dark:bg-slate-800 dark:hover:bg-blue-600">
+            <a href="mailto:gwidoputra@gmail.com" className="brutal-btn-solid !py-2.5 !px-6">
               Hubungi Saya
             </a>
           </div>
           <div className="flex md:hidden items-center gap-2">
             <button
               onClick={toggleTheme}
-              className={`p-2 rounded-lg transition-colors ${theme === 'dark' ? 'hover:bg-slate-800 text-slate-400' : 'hover:bg-slate-100 text-slate-600'}`}
+              className="p-2 border-2 border-foreground bg-card text-foreground transition-colors"
               aria-label="Toggle theme"
             >
-              {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
             </button>
-            <button 
-              className={`p-2 rounded-lg transition-colors ${theme === 'dark' ? 'hover:bg-slate-800' : 'hover:bg-slate-100'}`}
+            <button
+              className="p-2 border-2 border-foreground bg-card text-foreground transition-colors"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
         </div>
@@ -335,46 +355,46 @@ function CompanyProfile() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className={`md:hidden border-b overflow-hidden ${theme === 'dark' ? 'bg-[#020617] border-slate-800' : 'bg-white border-slate-100'}`}
+              className={`md:hidden border-t-2 border-foreground overflow-hidden ${theme === 'dark' ? 'bg-brutal-dark' : 'bg-brutal-cream'}`}
             >
-              <div className="px-6 py-4 space-y-3">
-                <a 
-                  href="#services" 
-                  className={`block py-2 text-sm font-medium hover:text-blue-600 transition-colors ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}
+              <div className="px-6 py-4 space-y-1">
+                <a
+                  href="#services"
+                  className="block py-2.5 text-sm font-black uppercase tracking-wide hover:text-brutal-blue transition-colors text-foreground"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Layanan
                 </a>
-                <a 
-                  href="#expertise" 
-                  className={`block py-2 text-sm font-medium hover:text-blue-600 transition-colors ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}
+                <a
+                  href="#expertise"
+                  className="block py-2.5 text-sm font-black uppercase tracking-wide hover:text-brutal-blue transition-colors text-foreground"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   TechStack
                 </a>
-                <a 
-                  href="#portfolio" 
-                  className={`block py-2 text-sm font-medium hover:text-blue-600 transition-colors ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}
+                <a
+                  href="#portfolio"
+                  className="block py-2.5 text-sm font-black uppercase tracking-wide hover:text-brutal-blue transition-colors text-foreground"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Portofolio
                 </a>
                 <button
                   onClick={() => { setMobileMenuOpen(false); setShowResume(true) }}
-                  className={`block w-full text-left py-2 text-sm font-medium hover:text-blue-600 transition-colors ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}
+                  className="block w-full text-left py-2.5 text-sm font-black uppercase tracking-wide hover:text-brutal-blue transition-colors text-foreground"
                 >
                   Short Resume
                 </button>
-                <Link 
-                  to="/contact" 
-                  className={`block py-2 text-sm font-medium hover:text-blue-600 transition-colors ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}
+                <Link
+                  to="/contact"
+                  className="block py-2.5 text-sm font-black uppercase tracking-wide hover:text-brutal-blue transition-colors text-foreground"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Kontak
                 </Link>
-                <a 
-                  href="mailto:gwidoputra@gmail.com" 
-                  className={`block w-full text-center px-6 py-2.5 rounded-full text-sm font-medium transition-all shadow-md mt-4 ${theme === 'dark' ? 'bg-slate-800 hover:bg-blue-600 text-white' : 'bg-slate-900 hover:bg-blue-600 text-white'}`}
+                <a
+                  href="mailto:gwidoputra@gmail.com"
+                  className="brutal-btn-solid w-full mt-4 !px-6"
                 >
                   Hubungi Saya
                 </a>
@@ -384,51 +404,40 @@ function CompanyProfile() {
         </AnimatePresence>
       </nav>
 
-      {/* Hero Section */}
-      <section className={`relative pt-32 pb-20 md:pt-52 md:pb-32 overflow-hidden transition-colors duration-300 ${theme === 'dark' ? 'bg-[#020617]' : 'bg-slate-50'}`}>
-        <div
-          className="absolute inset-0 opacity-[0.015] pointer-events-none mix-blend-overlay"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
-          }}
-        />        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-50/50 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 pointer-events-none dark:bg-blue-600/10" />
+      {/* ================= HERO SECTION ================= */}
+      <section className={`relative pt-36 pb-24 md:pt-52 md:pb-32 overflow-hidden border-b-4 border-foreground ${theme === 'dark' ? 'bg-brutal-dark' : 'bg-brutal-yellow'}`}>
+        {/* Halftone dots + decorative shapes */}
+        <div className={`absolute inset-0 halftone opacity-10 text-brutal-ink pointer-events-none`} />
+        <div className={`absolute -top-16 -right-16 w-56 h-56 border-4 border-foreground rotate-12 bg-brutal-cyan animate-brutal-float pointer-events-none`} />
+        <div className={`absolute bottom-8 left-8 w-24 h-24 bg-brutal-red border-4 border-foreground rotate-6 animate-brutal-float pointer-events-none hidden md:block`} />
+        <div className={`absolute top-40 right-[18%] w-10 h-10 bg-brutal-green border-2 border-foreground animate-brutal-spin pointer-events-none`} />
 
-        {/* Animasi Kanvas Efek Lightfall */}
-        <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
-          <Lightfall
-            beamCount={16}
-            beamColor="37,99,235"
-            speed={0.3}
-            className="opacity-40"
-          />
-        </div>
-
-        {/* Konten Utama di atas Kanvas */}
+        {/* Konten Utama */}
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-14 lg:gap-16 items-center">
             <div className="space-y-6 lg:space-y-8">
               <FadeIn delay={0.2}>
-                <div className={`inline-flex items-center gap-2 px-3 py-1.5 md:px-4 rounded-full border text-blue-600 text-[10px] md:text-xs font-semibold tracking-wide shadow-sm uppercase transition-colors duration-300 ${theme === 'dark' ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-200'}`}>
-                  Digital Transformation Partner
+                <div className={`inline-flex items-center gap-2 px-4 py-2 border-2 border-foreground font-black text-[10px] md:text-xs tracking-widest uppercase brutal-shadow-sm ${theme === 'dark' ? 'bg-brutal-dark text-[#f5f0e1]' : 'bg-brutal-cream text-brutal-ink'}`}>
+                  <Sparkles size={13} className="text-brutal-red" /> Digital Transformation Partner
                 </div>
               </FadeIn>
 
-              <h1 className={`text-3xl md:text-5xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+              <h1 className={`text-4xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] uppercase text-foreground`}>
                 <TextReveal text="Saya Membangun" /> <br />
-                <TextReveal text="Masa Depan Digital." className="text-blue-600 dark:text-blue-400" />
+                <TextReveal text="Masa Depan Digital." className="text-brutal-blue" />
               </h1>
 
               <FadeIn delay={0.4}>
-                <p className={`text-base md:text-lg leading-relaxed max-w-xl font-medium transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>
+                <p className={`text-base md:text-lg leading-relaxed max-w-xl font-bold ${theme === 'dark' ? 'text-[#f5f0e1]/70' : 'text-brutal-ink/70'}`}>
                   Sebagai konsultan dan pengembang perangkat lunak independen, saya mentransformasi visi bisnis Anda menjadi produk digital yang kuat, terukur, dan berpusat pada pengguna.
                 </p>
               </FadeIn>
 
-              <FadeIn delay={0.6} className="flex flex-col sm:flex-row gap-3 pt-4">
-                <a href="mailto:gwidoputra@gmail.com" className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 transition-colors text-white px-6 py-3 md:px-8 md:py-4 rounded-xl font-semibold shadow-lg shadow-blue-600/20">
+              <FadeIn delay={0.6} className="flex flex-col sm:flex-row gap-4 pt-4">
+                <a href="mailto:gwidoputra@gmail.com" className="brutal-btn-solid">
                   Jadwalkan Diskusi <ArrowRight size={16} />
                 </a>
-                <a href="#portfolio" className={`flex items-center justify-center gap-2 transition-colors px-6 py-3 md:px-8 md:py-4 rounded-xl font-semibold border shadow-sm ${theme === 'dark' ? 'bg-slate-900 hover:bg-slate-800 text-slate-300 border-slate-700' : 'bg-white hover:bg-slate-50 text-slate-700 border-slate-200'}`}>
+                <a href="#portfolio" className="brutal-btn">
                   Lihat Karya Saya
                 </a>
               </FadeIn>
@@ -449,96 +458,122 @@ function CompanyProfile() {
         </div>
       </section>
 
-      {/* Metrics Section */}
-      <section className={`border-y py-12 relative z-10 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#020617] border-slate-800' : 'bg-white border-slate-100'}`}>
+      {/* ================= MARQUEE TICKER ================= */}
+      <div className={`relative z-10 border-b-4 border-foreground overflow-hidden ${theme === 'dark' ? 'bg-brutal-dark' : 'bg-brutal-cream'}`}>
+        <div className="flex ticker-track py-4">
+          {[0, 1].map((dup) => (
+            <div key={dup} className="flex items-center shrink-0" aria-hidden={dup === 1}>
+              {tickerItems.map((item) => (
+                <span key={`${dup}-${item}`} className="flex items-center gap-6 px-6 text-sm font-black uppercase tracking-widest text-foreground">
+                  {item}
+                  <span className="text-brutal-red">★</span>
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ================= METRICS SECTION ================= */}
+      <section className={`border-b-4 border-foreground py-14 relative z-10 ${theme === 'dark' ? 'bg-brutal-dark' : 'bg-brutal-cream'}`}>
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { label: 'Proyek Selesai', value: '6+' },
-              { label: 'Tahun Berinovasi', value: '2+' },
-              { label: 'Teknologi Dikuasai', value: '15+' },
-              { label: 'Dukungan Teknis', value: '24/7' },
+              { label: 'Proyek Selesai', value: '6+', color: 'bg-brutal-yellow' },
+              { label: 'Tahun Berinovasi', value: '2+', color: 'bg-brutal-cyan' },
+              { label: 'Teknologi Dikuasai', value: '15+', color: 'bg-brutal-green' },
+              { label: 'Dukungan Teknis', value: '24/7', color: 'bg-brutal-red' },
             ].map((metric, idx) => (
-              <FadeIn key={metric.label} delay={idx * 0.1} className="text-center px-4">
-                <p className={`text-3xl md:text-4xl font-extrabold mb-2 transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{metric.value}</p>
-                <p className={`text-xs font-semibold uppercase tracking-widest transition-colors duration-300 ${theme === 'dark' ? 'text-slate-500' : 'text-slate-500'}`}>{metric.label}</p>
+              <FadeIn key={metric.label} delay={idx * 0.1} className="text-center">
+                <div className={`border-2 border-foreground brutal-shadow p-6 ${metric.color}`}>
+                  <p className="text-3xl md:text-4xl font-black mb-1 text-brutal-ink">{metric.value}</p>
+                  <p className="text-[10px] font-black uppercase tracking-widest text-brutal-ink/70">{metric.label}</p>
+                </div>
               </FadeIn>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className={`py-32 relative z-10 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#020617]' : 'bg-slate-50'}`}>
+      {/* ================= SERVICES SECTION ================= */}
+      <section id="services" className={`py-32 relative z-10 border-b-4 border-foreground ${theme === 'dark' ? 'bg-brutal-dark' : 'bg-brutal-cream'}`}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-20 space-y-6">
-            <h2 className="text-blue-600 font-bold uppercase tracking-widest text-sm">Layanan Utama</h2>
-            <h3 className={`text-4xl md:text-5xl font-bold tracking-tight transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Solusi End-to-End untuk Kebutuhan IT Anda</h3>
+            <h2 className="inline-block bg-brutal-red text-white px-4 py-1.5 border-2 border-foreground brutal-shadow-sm font-black uppercase tracking-widest text-sm">
+              Layanan Utama
+            </h2>
+            <h3 className={`text-4xl md:text-5xl font-black tracking-tight uppercase text-foreground`}>
+              Solusi End-to-End untuk Kebutuhan IT Anda
+            </h3>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {services.map((service, idx) => (
-              <FadeIn key={service.title} delay={idx * 0.2} direction="up" className={`p-10 rounded-2xl border shadow-sm hover:shadow-xl transition-shadow group transition-colors duration-300 ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-100'}`}>
-                <div className="w-14 h-14 bg-blue-50 dark:bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-600 mb-8 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <FadeIn key={service.title} delay={idx * 0.2} direction="up" className={`${service.cardClass} border-2 border-foreground p-10 transition-transform duration-200 hover:-translate-y-1`} style={{ boxShadow: '6px 6px 0 0 var(--border)' }}>
+                <div className="w-14 h-14 bg-card border-2 border-foreground flex items-center justify-center text-foreground mb-8 brutal-shadow-sm">
                   <service.icon size={28} />
                 </div>
-                <h4 className={`text-xl font-bold mb-4 transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{service.title}</h4>
-                <p className={`leading-relaxed transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>{service.description}</p>
+                <h4 className="text-xl font-black uppercase tracking-tight mb-4 text-brutal-ink">{service.title}</h4>
+                <p className="leading-relaxed font-bold text-brutal-ink/70">{service.description}</p>
               </FadeIn>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Value Proposition Section */}
-      <section id="expertise" className={`py-32 overflow-hidden relative z-10 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#020617]' : 'bg-white'}`}>
+      {/* ================= VALUE PROPOSITION SECTION ================= */}
+      <section id="expertise" className={`py-32 overflow-hidden relative z-10 border-b-4 border-foreground ${theme === 'dark' ? 'bg-brutal-dark' : 'bg-brutal-cream'}`}>
+        <div className={`absolute top-24 -left-24 w-48 h-48 bg-brutal-purple border-4 border-foreground -rotate-12 animate-brutal-float pointer-events-none`} />
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-20 items-center">
             <FadeIn direction="left" className="space-y-8">
-              <h2 className="text-blue-600 font-bold uppercase tracking-widest text-sm">Kenapa Memilih Saya</h2>
-              <h3 className={`text-4xl font-bold leading-tight transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+              <h2 className="inline-block bg-brutal-purple text-white px-4 py-1.5 border-2 border-foreground brutal-shadow-sm font-black uppercase tracking-widest text-sm">
+                Kenapa Memilih Saya
+              </h2>
+              <h3 className={`text-4xl font-black leading-tight uppercase tracking-tight text-foreground`}>
                 Mendorong Pertumbuhan Melalui Arsitektur Berkinerja Tinggi
               </h3>
-              <p className={`text-lg leading-relaxed font-medium transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>
+              <p className={`text-lg leading-relaxed font-bold ${theme === 'dark' ? 'text-[#f5f0e1]/70' : 'text-brutal-ink/70'}`}>
                 Saya tidak sekadar menulis kode. Saya merancang arsitektur sistem yang selaras dengan tujuan operasional Anda, memastikan setiap aplikasi dapat ditingkatkan skalanya seiring berkembangnya bisnis Anda.
               </p>
-              <div className="space-y-6 pt-4">
+              <div className="space-y-5 pt-4">
                 {values.map((value, idx) => (
-                  <div key={idx} className="flex gap-4 items-start">
-                    <div className="mt-1 text-blue-600 bg-blue-50 dark:bg-blue-500/10 p-1 rounded-full"><value.icon size={16} /></div>
+                  <div key={idx} className="flex gap-5 items-start border-2 border-foreground bg-card brutal-shadow-sm p-5">
+                    <div className={`mt-1 text-brutal-ink border-2 border-foreground p-1.5 ${value.cardClass}`}>
+                      <value.icon size={16} />
+                    </div>
                     <div>
-                      <h4 className={`font-bold mb-1 transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{value.title}</h4>
-                      <p className={`text-sm leading-relaxed transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>{value.description}</p>
+                      <h4 className="font-black uppercase tracking-tight mb-1 text-foreground">{value.title}</h4>
+                      <p className="text-sm leading-relaxed font-bold text-muted-foreground">{value.description}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </FadeIn>
 
-            <div className="grid grid-cols-2 gap-4 relative">
-              <div className="absolute inset-0 bg-gradient-to-tr from-blue-100 to-teal-50 blur-3xl -z-10 rounded-full opacity-50 dark:from-blue-600/10 dark:to-cyan-600/10" />
-              <FadeIn delay={0.2} direction="up" className="space-y-4 pt-12">
-                <div className="bg-slate-900 dark:bg-slate-800 p-8 rounded-2xl shadow-xl text-white border dark:border-slate-700">
-                  <Database className="w-10 h-10 text-blue-400 mb-6" />
-                  <h4 className="font-bold mb-2">Data Security</h4>
-                  <p className="text-sm text-slate-400">Penerapan standar keamanan tertinggi pada infrastruktur cloud.</p>
+            <div className="grid grid-cols-2 gap-6 relative">
+              <FadeIn delay={0.2} direction="up" className="space-y-6 pt-12">
+                <div className="brutal-card-blue border-2 border-foreground p-8">
+                  <Database className="w-10 h-10 text-white mb-6" />
+                  <h4 className="font-black uppercase tracking-tight mb-2 text-white">Data Security</h4>
+                  <p className="text-sm font-bold text-white/80">Penerapan standar keamanan tertinggi pada infrastruktur cloud.</p>
                 </div>
-                <div className={`p-8 rounded-2xl shadow-xl border transition-colors duration-300 ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-100'}`}>
-                  <Code2 className="w-10 h-10 text-blue-600 mb-6" />
-                  <h4 className={`font-bold mb-2 transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Modern Stack</h4>
-                  <p className={`text-sm transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>Teknologi mutakhir untuk performa aplikasi maksimal.</p>
+                <div className="brutal-card border-2 border-foreground p-8">
+                  <Code2 className="w-10 h-10 text-brutal-blue mb-6" />
+                  <h4 className="font-black uppercase tracking-tight mb-2 text-foreground">Modern Stack</h4>
+                  <p className="text-sm font-bold text-muted-foreground">Teknologi mutakhir untuk performa aplikasi maksimal.</p>
                 </div>
               </FadeIn>
-              <FadeIn delay={0.4} direction="up" className="space-y-4">
-                <div className={`p-8 rounded-2xl shadow-xl border transition-colors duration-300 ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-100'}`}>
-                  <Smartphone className="w-10 h-10 text-blue-600 mb-6" />
-                  <h4 className={`font-bold mb-2 transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Mobile First</h4>
-                  <p className={`text-sm transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>Pengalaman antarmuka yang optimal di segala jenis perangkat.</p>
+              <FadeIn delay={0.4} direction="up" className="space-y-6">
+                <div className="brutal-card border-2 border-foreground p-8">
+                  <Smartphone className="w-10 h-10 text-brutal-cyan mb-6" />
+                  <h4 className="font-black uppercase tracking-tight mb-2 text-foreground">Mobile First</h4>
+                  <p className="text-sm font-bold text-muted-foreground">Pengalaman antarmuka yang optimal di segala jenis perangkat.</p>
                 </div>
-                <div className="bg-blue-600 p-8 rounded-2xl shadow-xl text-white">
-                  <BarChart className="w-10 h-10 text-white/80 mb-6" />
-                  <h4 className="font-bold mb-2">Analytics</h4>
-                  <p className="text-sm text-blue-100">Integrasi dasbor dan pelaporan data secara real-time.</p>
+                <div className="brutal-card-red border-2 border-foreground p-8">
+                  <BarChart className="w-10 h-10 text-white mb-6" />
+                  <h4 className="font-black uppercase tracking-tight mb-2 text-white">Analytics</h4>
+                  <p className="text-sm font-bold text-white/80">Integrasi dasbor dan pelaporan data secara real-time.</p>
                 </div>
               </FadeIn>
             </div>
@@ -546,15 +581,18 @@ function CompanyProfile() {
         </div>
       </section>
 
-      {/* Tech Stack Section */}
-      <section id="tech" className={`py-32 relative z-10 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#020617]' : 'bg-slate-50'}`}>
+      {/* ================= TECH STACK SECTION ================= */}
+      <section id="tech" className={`py-32 relative z-10 border-b-4 border-foreground ${theme === 'dark' ? 'bg-brutal-dark' : 'bg-brutal-cream'}`}>
+        <div className={`absolute top-10 right-10 w-14 h-14 bg-brutal-red border-2 border-foreground rotate-12 animate-brutal-spin pointer-events-none`} />
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
-            <h2 className="text-blue-600 font-bold uppercase tracking-widest text-sm">Tech Stack</h2>
-            <h3 className={`text-4xl md:text-5xl font-bold tracking-tight transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+          <div className="text-center max-w-3xl mx-auto mb-14 space-y-4">
+            <h2 className="inline-block bg-brutal-green text-brutal-ink px-4 py-1.5 border-2 border-foreground brutal-shadow-sm font-black uppercase tracking-widest text-sm">
+              Tech Stack
+            </h2>
+            <h3 className={`text-4xl md:text-5xl font-black tracking-tight uppercase text-foreground`}>
               Technology I Work With
             </h3>
-            <p className={`text-lg leading-relaxed transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>
+            <p className={`text-lg leading-relaxed font-bold ${theme === 'dark' ? 'text-[#f5f0e1]/70' : 'text-brutal-ink/70'}`}>
               Check out the tools and technologies I use (click around for fun!)
             </p>
           </div>
@@ -563,35 +601,37 @@ function CompanyProfile() {
         </div>
       </section>
 
-      {/* Portfolio Section */}
-      <section id="portfolio" className="py-32 bg-slate-900 text-white relative overflow-hidden z-10">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none" />
+      {/* ================= PORTFOLIO SECTION ================= */}
+      <section id="portfolio" className="py-32 bg-brutal-blue text-white relative overflow-hidden z-10 border-b-4 border-foreground">
+        <div className="absolute top-0 right-0 w-40 h-40 bg-brutal-yellow border-4 border-foreground rounded-full -translate-y-1/2 translate-x-1/4 pointer-events-none" />
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-6">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <div className="space-y-4 max-w-2xl">
-              <h2 className="text-blue-400 font-bold uppercase tracking-widest text-sm">Studi Kasus</h2>
-              <h3 className="text-4xl md:text-5xl font-bold tracking-tight">Proyek Terbaru</h3>
+              <h2 className="inline-block bg-brutal-yellow text-brutal-ink px-4 py-1.5 border-2 border-foreground brutal-shadow-sm font-black uppercase tracking-widest text-sm">
+                Studi Kasus
+              </h2>
+              <h3 className="text-4xl md:text-5xl font-black tracking-tight uppercase">Proyek Terbaru</h3>
             </div>
-            <button onClick={() => setShowProjects(true)} className="flex items-center gap-2 text-white hover:text-blue-400 font-semibold transition-colors pb-2 border-b border-white/20 hover:border-blue-400">
+            <button onClick={() => setShowProjects(true)} className="brutal-btn !bg-white !text-brutal-ink">
               Lihat Semua Portofolio <ChevronRight size={18} />
             </button>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {featuredProjects.map((project, idx) => (
-              <FadeIn key={project.title} delay={idx * 0.1} direction="up" className="group flex flex-col h-full bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 overflow-hidden hover:border-blue-500/50 transition-colors">
+              <FadeIn key={project.title} delay={idx * 0.1} direction="up" className={`group flex flex-col h-full border-2 border-foreground transition-all duration-200 hover:-translate-y-1 ${idx % 3 === 0 ? 'bg-brutal-yellow text-brutal-ink' : idx % 3 === 1 ? 'bg-brutal-red text-white' : 'bg-brutal-cyan text-brutal-ink'}`} style={{ boxShadow: '6px 6px 0 0 #1a1a1a' }}>
                 <div className="p-8 pb-6 flex-1">
-                  <h4 className="text-2xl font-bold mb-4 group-hover:text-blue-400 transition-colors">
+                  <h4 className="text-2xl font-black uppercase tracking-tight mb-4">
                     {project.title}
                   </h4>
-                  <p className="text-slate-400 leading-relaxed font-medium">
+                  <p className="leading-relaxed font-bold opacity-70">
                     {project.description}
                   </p>
                 </div>
                 <div className="p-8 pt-0 mt-auto">
                   <div className="flex flex-wrap gap-2">
                     {project.tags.slice(0, 3).map((tag) => (
-                      <span key={tag} className="text-xs font-semibold text-slate-300 bg-slate-700/50 px-3 py-1.5 rounded-md">
+                      <span key={tag} className="text-xs font-black text-foreground bg-card border-2 border-foreground px-3 py-1.5 uppercase">
                         {tag}
                       </span>
                     ))}
@@ -603,30 +643,32 @@ function CompanyProfile() {
         </div>
       </section>
 
-      {/* Guestbook Section */}
-      <section id="guestbook" className={`py-32 transition-colors duration-300 ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-50'}`}>
+      {/* ================= GUESTBOOK SECTION ================= */}
+      <section id="guestbook" className={`py-32 border-b-4 border-foreground ${theme === 'dark' ? 'bg-brutal-dark' : 'bg-brutal-cream'}`}>
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-            <h2 className="text-blue-600 font-bold uppercase tracking-widest text-sm">Guestbook</h2>
-            <h3 className={`text-4xl md:text-5xl font-bold tracking-tight transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-              Tinggalkan Jejak<span className="text-blue-600">.</span>
+            <h2 className="inline-block bg-brutal-cyan text-brutal-ink px-4 py-1.5 border-2 border-foreground brutal-shadow-sm font-black uppercase tracking-widest text-sm">
+              Guestbook
+            </h2>
+            <h3 className={`text-4xl md:text-5xl font-black tracking-tight uppercase text-foreground`}>
+              Tinggalkan Jejak<span className="text-brutal-red">.</span>
             </h3>
-            <p className={`text-lg leading-relaxed font-medium transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
+            <p className={`text-lg leading-relaxed font-bold ${theme === 'dark' ? 'text-[#f5f0e1]/70' : 'text-brutal-ink/70'}`}>
               Tulis pesan, salam, atau roast — semua orang bisa baca.
             </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8">
-            <div className={`rounded-3xl shadow-lg border overflow-hidden ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-100'}`}>
-              <div className={`px-8 py-6 border-b ${theme === 'dark' ? 'border-slate-800' : 'border-slate-100'}`}>
+            <div className="brutal-card overflow-hidden">
+              <div className="px-8 py-6 border-b-2 border-foreground bg-brutal-yellow">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className={`p-2.5 rounded-xl ${theme === 'dark' ? 'bg-slate-800' : 'bg-slate-100'}`}>
-                      <MessageCircle size={18} className="text-blue-600" />
+                    <div className="p-2.5 bg-card border-2 border-foreground brutal-shadow-sm">
+                      <MessageCircle size={18} className="text-brutal-red" />
                     </div>
                     <div>
-                      <h2 className={`text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Guestbook</h2>
-                      <p className={`text-xs font-semibold ${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'}`}>
+                      <h2 className="text-lg font-black uppercase tracking-tight text-brutal-ink">Guestbook</h2>
+                      <p className="text-xs font-black text-brutal-ink/60">
                         {notes.length} notes
                       </p>
                     </div>
@@ -638,33 +680,33 @@ function CompanyProfile() {
                 {loading ? (
                   <div className="space-y-4">
                     {[1, 2, 3].map((i) => (
-                      <div key={i} className={`animate-pulse rounded-2xl p-5 ${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-100'}`}>
-                        <div className={`h-3 w-20 rounded mb-3 ${theme === 'dark' ? 'bg-slate-700' : 'bg-slate-200'}`} />
-                        <div className={`h-4 w-3/4 rounded mb-2 ${theme === 'dark' ? 'bg-slate-700' : 'bg-slate-200'}`} />
-                        <div className={`h-3 w-24 rounded ${theme === 'dark' ? 'bg-slate-700' : 'bg-slate-200'}`} />
+                      <div key={i} className="animate-pulse border-2 border-foreground p-5 bg-muted">
+                        <div className="h-3 w-20 mb-3 bg-foreground/20" />
+                        <div className="h-4 w-3/4 mb-2 bg-foreground/20" />
+                        <div className="h-3 w-24 bg-foreground/20" />
                       </div>
                     ))}
                   </div>
                 ) : notes.length === 0 ? (
-                  <div className={`text-center py-12 ${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'}`}>
+                  <div className="text-center py-12 text-muted-foreground">
                     <MessageCircle size={40} className="mx-auto mb-4 opacity-40" />
-                    <p className="text-sm font-semibold">Belum ada catatan</p>
-                    <p className="text-xs mt-1">Jadilah yang pertama!</p>
+                    <p className="text-sm font-black">Belum ada catatan</p>
+                    <p className="text-xs font-bold mt-1">Jadilah yang pertama!</p>
                   </div>
                 ) : (
-                  <div className="space-y-3">
+                  <div className="space-y-4">
                     {notes.map((note) => (
-                      <div key={note.id} className={`group rounded-2xl p-5 border transition-all hover:shadow-md ${theme === 'dark' ? 'bg-slate-800/40 border-slate-700/50 hover:border-slate-600' : 'bg-slate-50 border-slate-100 hover:border-slate-200'}`}>
+                      <div key={note.id} className="group border-2 border-foreground p-5 bg-card hover:bg-brutal-yellow/20 transition-colors brutal-shadow-sm">
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex items-center gap-2.5 min-w-0">
-                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-black uppercase shrink-0 ${theme === 'dark' ? 'bg-slate-700 text-slate-300' : 'bg-slate-200 text-slate-600'}`}>
+                            <div className={`w-8 h-8 flex items-center justify-center text-[11px] font-black uppercase shrink-0 border-2 border-foreground ${colorFor(note.name)}`}>
                               {note.name.charAt(0)}
                             </div>
-                            <span className={`text-sm font-bold truncate ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{note.name}</span>
+                            <span className="text-sm font-black uppercase truncate text-foreground">{note.name}</span>
                           </div>
-                          <span className={`text-[10px] font-semibold shrink-0 ${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'}`}>{note.formattedDate}</span>
+                          <span className="text-[10px] font-black shrink-0 text-muted-foreground">{note.formattedDate}</span>
                         </div>
-                        <p className={`mt-3 text-sm leading-relaxed font-medium pl-10.5 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>{note.message}</p>
+                        <p className="mt-3 text-sm leading-relaxed font-bold text-muted-foreground">{note.message}</p>
                       </div>
                     ))}
                   </div>
@@ -672,15 +714,15 @@ function CompanyProfile() {
               </div>
             </div>
 
-            <div className={`rounded-3xl shadow-lg border ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-100'}`}>
-              <div className={`px-8 py-6 border-b ${theme === 'dark' ? 'border-slate-800' : 'border-slate-100'}`}>
+            <div className="brutal-card overflow-hidden">
+              <div className="px-8 py-6 border-b-2 border-foreground bg-brutal-purple">
                 <div className="flex items-center gap-3">
-                  <div className={`p-2.5 rounded-xl ${theme === 'dark' ? 'bg-slate-800' : 'bg-slate-100'}`}>
-                    <Hash size={18} className="text-blue-600" />
+                  <div className="p-2.5 bg-card border-2 border-foreground brutal-shadow-sm">
+                    <Hash size={18} className="text-brutal-purple" />
                   </div>
                   <div>
-                    <h2 className={`text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Leave a Note</h2>
-                    <p className={`text-xs font-semibold ${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'}`}>Katakan sesuatu...</p>
+                    <h2 className="text-lg font-black uppercase tracking-tight text-white">Leave a Note</h2>
+                    <p className="text-xs font-black text-white/70">Katakan sesuatu...</p>
                   </div>
                 </div>
               </div>
@@ -688,30 +730,30 @@ function CompanyProfile() {
               <div className="p-8">
                 <form onSubmit={handleGuestbookSubmit} className="space-y-5">
                   <div>
-                    <label htmlFor="gb-name" className={`block text-sm font-semibold mb-2 ${theme === 'dark' ? 'text-slate-300' : 'text-slate-700'}`}>
-                      YOUR NAME <span className="text-blue-600">*</span>
+                    <label htmlFor="gb-name" className="block text-sm font-black uppercase tracking-wide mb-2 text-foreground">
+                      YOUR NAME <span className="text-brutal-red">*</span>
                     </label>
                     <div className="relative">
-                      <AtSign size={14} className={`absolute left-3.5 top-1/2 -translate-y-1/2 ${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'}`} />
+                      <AtSign size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
                       <input id="gb-name" type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Alex Rivera" maxLength={50}
-                        className={`w-full pl-9 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors text-sm ${theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white placeholder-slate-500' : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400'}`} />
+                        className={inputClass} />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="gb-message" className={`block text-sm font-semibold mb-2 ${theme === 'dark' ? 'text-slate-300' : 'text-slate-700'}`}>
-                      YOUR NOTE <span className="text-blue-600">*</span>
+                    <label htmlFor="gb-message" className="block text-sm font-black uppercase tracking-wide mb-2 text-foreground">
+                      YOUR NOTE <span className="text-brutal-red">*</span>
                     </label>
                     <div className="relative">
-                      <Quote size={14} className={`absolute left-3.5 top-3.5 ${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'}`} />
+                      <Quote size={14} className="absolute left-3.5 top-3.5 text-muted-foreground" />
                       <textarea id="gb-message" value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Say something nice... or roast me 😄" maxLength={500} rows={4}
-                        className={`w-full pl-9 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors resize-none text-sm ${theme === 'dark' ? 'bg-slate-800 border-slate-700 text-white placeholder-slate-500' : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400'}`} />
+                        className={`${inputClass} resize-none`} />
                     </div>
-                    <p className={`text-[10px] font-medium mt-1.5 text-right ${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'}`}>{message.length}/500</p>
+                    <p className="text-[10px] font-black mt-1.5 text-right text-muted-foreground">{message.length}/500</p>
                   </div>
 
                   <button type="submit" disabled={submitting}
-                    className={`w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold transition-all shadow-lg text-sm ${submitting ? 'opacity-60 cursor-not-allowed' : ''} ${theme === 'dark' ? 'bg-slate-800 hover:bg-blue-600 text-white' : 'bg-slate-900 hover:bg-blue-600 text-white'}`}>
+                    className={`brutal-btn-solid w-full ${submitting ? 'opacity-60 cursor-not-allowed' : ''}`}>
                     <Send size={16} />
                     {submitting ? 'Mengirim...' : 'Post Note'}
                   </button>
@@ -722,65 +764,69 @@ function CompanyProfile() {
         </div>
       </section>
 
-      {/* Call To Action */}
-      <section className="py-32 bg-blue-600 relative z-10">
+      {/* ================= CALL TO ACTION ================= */}
+      <section className="py-32 bg-brutal-red relative z-10 border-b-4 border-foreground">
+        <div className={`absolute -top-10 left-10 w-16 h-16 bg-brutal-yellow border-2 border-foreground rotate-12 animate-brutal-spin pointer-events-none`} />
+        <div className={`absolute bottom-10 right-10 w-20 h-20 bg-brutal-cyan border-2 border-foreground -rotate-6 animate-brutal-float pointer-events-none`} />
         <div className="max-w-4xl mx-auto px-6 text-center space-y-10">
-          <h2 className="text-4xl md:text-6xl font-bold text-white leading-tight">
+          <h2 className="text-4xl md:text-6xl font-black text-white leading-tight uppercase tracking-tight">
             Siap untuk mendigitalisasi bisnis Anda?
           </h2>
-          <p className="text-xl text-blue-100 font-medium max-w-2xl mx-auto">
+          <p className="text-xl text-white/90 font-bold max-w-2xl mx-auto">
             Jadwalkan konsultasi gratis hari ini. Saya akan membantu Anda merumuskan teknologi yang tepat untuk eskalasi bisnis Anda.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
-            <a href="mailto:gwidoputra@gmail.com" className="bg-white text-blue-600 hover:bg-slate-50 px-8 py-4 rounded-xl font-bold transition-all shadow-xl hover:-translate-y-1 text-lg">
+            <a href="mailto:gwidoputra@gmail.com" className="brutal-btn !bg-brutal-yellow !text-brutal-ink !text-lg !px-10 !py-4">
               Hubungi Saya
             </a>
-            <button onClick={() => setShowResume(true)} className="bg-transparent text-white border-2 border-blue-400 hover:bg-blue-700 px-8 py-4 rounded-xl font-bold transition-all text-lg">
+            <button onClick={() => setShowResume(true)} className="brutal-btn !bg-white !text-brutal-ink !text-lg !px-10 !py-4">
               Pelajari Lebih Lanjut
             </button>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-slate-900 text-slate-400 py-16 border-t border-slate-800 relative z-10">
+      {/* ================= FOOTER ================= */}
+      <footer className={`py-16 border-t-4 border-foreground relative z-10 ${theme === 'dark' ? 'bg-brutal-dark' : 'bg-brutal-cream'}`}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div className="md:col-span-2 space-y-6">
               <div className="flex items-center gap-2">
-                <Layers className="text-blue-500 w-6 h-6" />
-                <span className="text-xl font-bold tracking-tight text-white">gwidoputra</span>
+                <div className="w-9 h-9 bg-brutal-yellow border-2 border-foreground flex items-center justify-center brutal-shadow-sm">
+                  <Layers className="text-brutal-ink w-5 h-5" />
+                </div>
+                <span className="text-xl font-black uppercase tracking-tight text-foreground">gwidoputra</span>
               </div>
-              <p className="max-w-sm text-sm leading-relaxed">
+              <p className="max-w-sm text-sm leading-relaxed font-bold text-muted-foreground">
                 Menyediakan layanan pengembangan perangkat lunak inovatif dan solusi IT khusus untuk bisnis di era digital.
               </p>
             </div>
             <div>
-              <h4 className="text-white font-bold mb-6">Navigasi</h4>
-              <ul className="space-y-4 text-sm">
-                <li><a href="#services" className="hover:text-blue-400 transition-colors">Layanan Utama</a></li>
-                <li><a href="#expertise" className="hover:text-blue-400 transition-colors">TechStack</a></li>
-                <li><a href="#portfolio" className="hover:text-blue-400 transition-colors">Studi Kasus</a></li>
-                <li><button onClick={() => setShowResume(true)} className="hover:text-blue-400 transition-colors">Short Resume</button></li>
+              <h4 className="font-black uppercase tracking-tight mb-6 text-foreground">Navigasi</h4>
+              <ul className="space-y-4 text-sm font-bold">
+                <li><a href="#services" className="hover:text-brutal-blue transition-colors text-muted-foreground">Layanan Utama</a></li>
+                <li><a href="#expertise" className="hover:text-brutal-blue transition-colors text-muted-foreground">TechStack</a></li>
+                <li><a href="#portfolio" className="hover:text-brutal-blue transition-colors text-muted-foreground">Studi Kasus</a></li>
+                <li><button onClick={() => setShowResume(true)} className="hover:text-brutal-blue transition-colors text-muted-foreground">Short Resume</button></li>
               </ul>
             </div>
             <div>
-              <h4 className="text-white font-bold mb-6">Kontak</h4>
-              <ul className="space-y-4 text-sm">
+              <h4 className="font-black uppercase tracking-tight mb-6 text-foreground">Kontak</h4>
+              <ul className="space-y-4 text-sm font-bold text-muted-foreground">
                 <li>Email: gwidoputra@gmail.com</li>
                 <li>Lokasi: Malang, Jawa Timur</li>
                 <li className="pt-4 flex gap-4">
-                  <a href="https://linkedin.com/in/gwido-putra-wijaya" className="text-slate-400 hover:text-white transition-colors"><Linkedin size={20} /></a>
-                  <a href="https://github.com/GwidoPutra" className="text-slate-400 hover:text-white transition-colors"><Github size={20} /></a>
+                  <a href="https://linkedin.com/in/gwido-putra-wijaya" className="border-2 border-foreground p-2 bg-card text-foreground hover:bg-brutal-blue hover:text-white transition-colors"><Linkedin size={18} /></a>
+                  <a href="https://github.com/GwidoPutra" className="border-2 border-foreground p-2 bg-card text-foreground hover:bg-brutal-ink hover:text-white transition-colors"><Github size={18} /></a>
                 </li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium">
-            <p>© {new Date().getFullYear()} GP (Gwido Putra Wijaya). All rights reserved.</p>
+          <div className="border-t-2 border-foreground pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-black tracking-wide">
+            <p className="text-muted-foreground">© {new Date().getFullYear()} GP (Gwido Putra Wijaya). All rights reserved.</p>
             <div className="flex gap-6">
-              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Privacy Policy</a>
+              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Terms of Service</a>
             </div>
           </div>
         </div>
@@ -791,10 +837,20 @@ function CompanyProfile() {
         {showProjects && <ProjectsModal onClose={() => setShowProjects(false)} />}
         {showResume && <ResumeModal onClose={() => setShowResume(false)} />}
       </AnimatePresence>
-      
+
       {/* Interactive Components */}
       <CLITerminal />
 
     </div>
   )
+}
+
+// Helper untuk warna avatar guestbook yang stabil per nama
+const avatarColors = ['bg-brutal-yellow', 'bg-brutal-cyan', 'bg-brutal-green', 'bg-brutal-purple text-white', 'bg-brutal-red text-white', 'bg-brutal-blue text-white']
+function colorFor(name: string) {
+  let hash = 0
+  for (let i = 0; i < name.length; i++) {
+    hash = (hash * 31 + name.charCodeAt(i)) | 0
+  }
+  return avatarColors[Math.abs(hash) % avatarColors.length]
 }

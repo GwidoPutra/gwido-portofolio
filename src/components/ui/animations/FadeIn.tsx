@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
-import { ReactNode } from 'react';
+import { ReactNode, CSSProperties } from 'react';
 
-export function FadeIn({ children, delay = 0, direction = 'up', className = '' }: { children: ReactNode; delay?: number; direction?: 'up' | 'down' | 'left' | 'right' | 'none'; className?: string }) {
+export function FadeIn({ children, delay = 0, direction = 'up', className = '', style }: { children: ReactNode; delay?: number; direction?: 'up' | 'down' | 'left' | 'right' | 'none'; className?: string; style?: CSSProperties }) {
   const directions = {
     up: { y: 30, x: 0 },
     down: { y: -30, x: 0 },
@@ -17,6 +17,7 @@ export function FadeIn({ children, delay = 0, direction = 'up', className = '' }
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
       className={className}
+      style={style}
     >
       {children}
     </motion.div>
