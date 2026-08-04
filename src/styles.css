@@ -7,154 +7,95 @@
 
 @custom-variant dark (&:is(.dark *));
 
-body {
-  @apply m-0;
-  font-family:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
-    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family:
-    source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-
+/* ============================================================
+   NEO-BRUTALISM DESIGN TOKENS
+   ============================================================ */
 :root {
-  --background:
-    oklch(1 0 0);
-  --foreground:
-    oklch(0.145 0 0);
-  --card:
-    oklch(1 0 0);
-  --card-foreground:
-    oklch(0.145 0 0);
-  --popover:
-    oklch(1 0 0);
-  --popover-foreground:
-    oklch(0.145 0 0);
-  --primary:
-    oklch(0.205 0 0);
-  --primary-foreground:
-    oklch(0.985 0 0);
-  --secondary:
-    oklch(0.97 0 0);
-  --secondary-foreground:
-    oklch(0.205 0 0);
-  --muted:
-    oklch(0.97 0 0);
-  --muted-foreground:
-    oklch(0.556 0 0);
-  --accent:
-    oklch(0.97 0 0);
-  --accent-foreground:
-    oklch(0.205 0 0);
-  --destructive:
-    oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border:
-    oklch(0.922 0 0);
-  --input:
-    oklch(0.922 0 0);
-  --ring:
-    oklch(0.708 0 0);
-  --chart-1:
-    oklch(0.87 0 0);
-  --chart-2:
-    oklch(0.556 0 0);
-  --chart-3:
-    oklch(0.439 0 0);
-  --chart-4:
-    oklch(0.371 0 0);
-  --chart-5:
-    oklch(0.269 0 0);
-  --radius:
-    0.625rem;
-  --sidebar:
-    oklch(0.985 0 0);
-  --sidebar-foreground:
-    oklch(0.145 0 0);
-  --sidebar-primary:
-    oklch(0.205 0 0);
-  --sidebar-primary-foreground:
-    oklch(0.985 0 0);
-  --sidebar-accent:
-    oklch(0.97 0 0);
-  --sidebar-accent-foreground:
-    oklch(0.205 0 0);
-  --sidebar-border:
-    oklch(0.922 0 0);
-  --sidebar-ring:
-    oklch(0.708 0 0);
+  --background: #fdf6e3;
+  --foreground: #1a1a1a;
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a1a;
+  --primary: #ffde59;
+  --primary-foreground: #1a1a1a;
+  --secondary: #3b82f6;
+  --secondary-foreground: #ffffff;
+  --muted: #f4e9cf;
+  --muted-foreground: #6b6455;
+  --accent: #ff6b6b;
+  --accent-foreground: #ffffff;
+  --destructive: #ff6b6b;
+  --destructive-foreground: #ffffff;
+  --border: #1a1a1a;
+  --input: #1a1a1a;
+  --ring: #1a1a1a;
+  --chart-1: #ffde59;
+  --chart-2: #3b82f6;
+  --chart-3: #ff6b6b;
+  --chart-4: #7ed957;
+  --chart-5: #b57edc;
+  --radius: 0rem;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1a1a1a;
+  --sidebar-primary: #ffde59;
+  --sidebar-primary-foreground: #1a1a1a;
+  --sidebar-accent: #f4e9cf;
+  --sidebar-accent-foreground: #1a1a1a;
+  --sidebar-border: #1a1a1a;
+  --sidebar-ring: #1a1a1a;
 }
 
 .dark {
-  --background:
-    oklch(0.145 0 0);
-  --foreground:
-    oklch(0.985 0 0);
-  --card:
-    oklch(0.205 0 0);
-  --card-foreground:
-    oklch(0.985 0 0);
-  --popover:
-    oklch(0.205 0 0);
-  --popover-foreground:
-    oklch(0.985 0 0);
-  --primary:
-    oklch(0.922 0 0);
-  --primary-foreground:
-    oklch(0.205 0 0);
-  --secondary:
-    oklch(0.269 0 0);
-  --secondary-foreground:
-    oklch(0.985 0 0);
-  --muted:
-    oklch(0.269 0 0);
-  --muted-foreground:
-    oklch(0.708 0 0);
-  --accent:
-    oklch(0.269 0 0);
-  --accent-foreground:
-    oklch(0.985 0 0);
-  --destructive:
-    oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border:
-    oklch(1 0 0 / 10%);
-  --input:
-    oklch(1 0 0 / 15%);
-  --ring:
-    oklch(0.556 0 0);
-  --chart-1:
-    oklch(0.87 0 0);
-  --chart-2:
-    oklch(0.556 0 0);
-  --chart-3:
-    oklch(0.439 0 0);
-  --chart-4:
-    oklch(0.371 0 0);
-  --chart-5:
-    oklch(0.269 0 0);
-  --sidebar:
-    oklch(0.205 0 0);
-  --sidebar-foreground:
-    oklch(0.985 0 0);
-  --sidebar-primary:
-    oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground:
-    oklch(0.985 0 0);
-  --sidebar-accent:
-    oklch(0.269 0 0);
-  --sidebar-accent-foreground:
-    oklch(0.985 0 0);
-  --sidebar-border:
-    oklch(1 0 0 / 10%);
-  --sidebar-ring:
-    oklch(0.556 0 0);
+  --background: #151410;
+  --foreground: #f5f0e1;
+  --card: #211f18;
+  --card-foreground: #f5f0e1;
+  --popover: #211f18;
+  --popover-foreground: #f5f0e1;
+  --primary: #ffde59;
+  --primary-foreground: #1a1a1a;
+  --secondary: #3b82f6;
+  --secondary-foreground: #ffffff;
+  --muted: #2a2820;
+  --muted-foreground: #a8a08c;
+  --accent: #ff6b6b;
+  --accent-foreground: #ffffff;
+  --destructive: #ff6b6b;
+  --destructive-foreground: #ffffff;
+  --border: #f5f0e1;
+  --input: #f5f0e1;
+  --ring: #f5f0e1;
+  --chart-1: #ffde59;
+  --chart-2: #3b82f6;
+  --chart-3: #ff6b6b;
+  --chart-4: #7ed957;
+  --chart-5: #b57edc;
+  --radius: 0rem;
+  --sidebar: #211f18;
+  --sidebar-foreground: #f5f0e1;
+  --sidebar-primary: #ffde59;
+  --sidebar-primary-foreground: #1a1a1a;
+  --sidebar-accent: #2a2820;
+  --sidebar-accent-foreground: #f5f0e1;
+  --sidebar-border: #f5f0e1;
+  --sidebar-ring: #f5f0e1;
 }
 
+/* Neo-brutalism brand colors available as utilities: bg-brutal-yellow etc. */
+@theme inline {
+  --color-brutal-yellow: #ffde59;
+  --color-brutal-blue: #3b82f6;
+  --color-brutal-red: #ff6b6b;
+  --color-brutal-green: #7ed957;
+  --color-brutal-purple: #b57edc;
+  --color-brutal-cyan: #5cd6ff;
+  --color-brutal-cream: #fdf6e3;
+  --color-brutal-ink: #1a1a1a;
+  --color-brutal-dark: #151410;
+}
+
+/* Map shadcn tokens to Tailwind colors */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -180,10 +121,13 @@ code {
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-4xl: 0px;
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -192,16 +136,29 @@ code {
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --font-heading:
-    var(--font-mono);
-  --font-mono:
-    'JetBrains Mono Variable', monospace;
-  --radius-2xl:
-    calc(var(--radius) * 1.8);
-  --radius-3xl:
-    calc(var(--radius) * 2.2);
-  --radius-4xl:
-    calc(var(--radius) * 2.6);
+  --font-heading: var(--font-mono);
+  --font-mono: 'JetBrains Mono Variable', monospace;
+}
+
+/* ============================================================
+   NEO-BRUTALISM UTILITIES
+   ============================================================ */
+
+/* Hard offset shadows */
+@utility brutal-shadow {
+  box-shadow: 4px 4px 0 0 var(--border);
+}
+@utility brutal-shadow-sm {
+  box-shadow: 3px 3px 0 0 var(--border);
+}
+@utility brutal-shadow-lg {
+  box-shadow: 6px 6px 0 0 var(--border);
+}
+@utility brutal-shadow-xl {
+  box-shadow: 8px 8px 0 0 var(--border);
+}
+@utility brutal-shadow-yellow {
+  box-shadow: 4px 4px 0 0 #1a1a1a;
 }
 
 @layer base {
@@ -210,8 +167,165 @@ code {
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'JetBrains Mono Variable', ui-monospace, monospace;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   html {
     @apply font-mono;
+  }
+}
+
+/* ============================================================
+   NEO-BRUTALISM COMPONENT STYLES
+   ============================================================ */
+@layer components {
+  /* Press-down button */
+  .brutal-btn {
+    @apply inline-flex items-center justify-center gap-2 border-2 border-foreground bg-background px-6 py-3 font-black uppercase tracking-wider text-foreground transition-all duration-150;
+    box-shadow: 4px 4px 0 0 var(--border);
+  }
+  .brutal-btn:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 0 var(--border);
+  }
+  .brutal-btn:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0 0 0 0 transparent;
+  }
+
+  /* Solid colored press-down button */
+  .brutal-btn-solid {
+    @apply inline-flex items-center justify-center gap-2 border-2 border-foreground bg-primary px-6 py-3 font-black uppercase tracking-wider text-primary-foreground transition-all duration-150;
+    box-shadow: 4px 4px 0 0 var(--border);
+  }
+  .brutal-btn-solid:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 0 var(--border);
+  }
+  .brutal-btn-solid:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0 0 0 0 transparent;
+  }
+
+  /* Card with hard shadow + border */
+  .brutal-card {
+    @apply border-2 border-foreground bg-card;
+    box-shadow: 5px 5px 0 0 var(--border);
+  }
+  .brutal-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0 0 var(--border);
+  }
+
+  /* Highlighted colored card */
+  .brutal-card-yellow {
+    @apply border-2 border-foreground bg-brutal-yellow text-brutal-ink;
+    box-shadow: 5px 5px 0 0 var(--border);
+  }
+  .brutal-card-blue {
+    @apply border-2 border-foreground bg-brutal-blue text-white;
+    box-shadow: 5px 5px 0 0 var(--border);
+  }
+  .brutal-card-red {
+    @apply border-2 border-foreground bg-brutal-red text-white;
+    box-shadow: 5px 5px 0 0 var(--border);
+  }
+  .brutal-card-green {
+    @apply border-2 border-foreground bg-brutal-green text-brutal-ink;
+    box-shadow: 5px 5px 0 0 var(--border);
+  }
+  .brutal-card-purple {
+    @apply border-2 border-foreground bg-brutal-purple text-white;
+    box-shadow: 5px 5px 0 0 var(--border);
+  }
+  .brutal-card-cyan {
+    @apply border-2 border-foreground bg-brutal-cyan text-brutal-ink;
+    box-shadow: 5px 5px 0 0 var(--border);
+  }
+
+  /* Chip / tag */
+  .brutal-chip {
+    @apply inline-flex items-center gap-1.5 border-2 border-foreground bg-card px-3 py-1 text-[10px] font-black uppercase tracking-widest text-foreground;
+  }
+
+  /* Halftone dot pattern */
+  .halftone {
+    background-image: radial-gradient(currentColor 1px, transparent 1px);
+    background-size: 12px 12px;
+  }
+
+  /* Vertical stripes pattern */
+  .stripes {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--border) 0,
+      var(--border) 2px,
+      transparent 2px,
+      transparent 12px
+    );
+  }
+
+  /* Marque ticker */
+  .ticker-track {
+    display: inline-flex;
+    animation: ticker-scroll 22s linear infinite;
+    white-space: nowrap;
+  }
+  .ticker-track:hover {
+    animation-play-state: paused;
+  }
+
+  /* Sticker (rotated badge) */
+  .sticker {
+    @apply inline-flex items-center gap-1 border-2 border-foreground px-4 py-2 font-black uppercase tracking-widest text-brutal-ink;
+  }
+
+  /* Selection color */
+  ::selection {
+    background: #ffde59;
+    color: #1a1a1a;
+  }
+}
+
+@keyframes ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes brutal-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+.animate-brutal-float {
+  animation: brutal-float 3s ease-in-out infinite;
+}
+
+@keyframes brutal-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-brutal-spin {
+  animation: brutal-spin 14s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track,
+  .animate-brutal-float,
+  .animate-brutal-spin {
+    animation: none;
   }
 }
