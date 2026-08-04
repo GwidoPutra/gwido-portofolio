@@ -209,32 +209,30 @@ export function TechStackGrid() {
   }, []);
 
   return (
-    <div className="flex flex-wrap gap-3.5 justify-center">
-      {techStack.map((tech) => {
+    <div className="flex flex-wrap gap-4 justify-center">
+      {techStack.map((tech, idx) => {
         const isDark = darkIcons.includes(tech.name);
-        const bg = theme === 'dark' ? 'bg-slate-900/80' : 'bg-white';
-        const border = theme === 'dark' ? 'border-slate-700/50' : 'border-slate-200';
-        const text = isDark ? 'text-black' : (theme === 'dark' ? 'text-slate-200' : 'text-slate-700');
+        const text = isDark ? 'text-black' : (theme === 'dark' ? 'text-[#f5f0e1]' : 'text-brutal-ink');
 
         return (
           <div
             key={tech.name}
-            className={`group relative flex flex-col items-center gap-1.5 px-4 py-3 rounded-xl border ${bg} ${border} ${text} cursor-default transition-all duration-300 hover:-translate-y-1`}
+            className={`group relative flex flex-col items-center gap-1.5 px-4 py-3 border-2 border-foreground bg-card ${text} cursor-default transition-all duration-200 hover:-translate-y-1`}
             style={{
-              boxShadow: '0 0 0 0 transparent',
-              transition: 'box-shadow 0.3s, transform 0.3s',
+              boxShadow: '4px 4px 0 0 var(--border)',
+              transform: idx % 3 === 1 ? 'rotate(1.5deg)' : idx % 3 === 2 ? 'rotate(-1.5deg)' : 'rotate(0deg)',
+              transition: 'box-shadow 0.2s, transform 0.2s',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow = `0 0 18px 2px ${tech.color}40, 0 0 40px 6px ${tech.color}20`;
-              e.currentTarget.style.borderColor = tech.color;
+              e.currentTarget.style.boxShadow = `8px 8px 0 0 var(--border)`;
+              e.currentTarget.style.background = 'var(--card)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = '0 0 0 0 transparent';
-              e.currentTarget.style.borderColor = '';
+              e.currentTarget.style.boxShadow = '4px 4px 0 0 var(--border)';
             }}
           >
             <tech.icon size={28} />
-            <span className="text-[10px] font-bold leading-tight whitespace-nowrap">{tech.name}</span>
+            <span className="text-[10px] font-black leading-tight whitespace-nowrap uppercase">{tech.name}</span>
           </div>
         );
       })}
