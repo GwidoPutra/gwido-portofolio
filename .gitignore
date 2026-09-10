@@ -14,7 +14,6 @@ dev.db
 
 # Prisma generated client
 /generated/prisma
-/src/generated/prisma
 
 # Build & cache
 dist

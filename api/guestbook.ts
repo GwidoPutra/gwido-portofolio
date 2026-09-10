@@ -1,4 +1,4 @@
-import { prisma } from './prisma.ts'
+import { prisma } from '../lib/prisma'
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 

@@ -1,8 +1,8 @@
 // Prisma schema — PostgreSQL (Neon / Supabase / Vercel Postgres)
 
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
 }
 
 datasource db {
