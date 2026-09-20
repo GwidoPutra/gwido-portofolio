@@ -2,97 +2,102 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/jetbrains-mono";
+@import "@fontsource-variable/space-grotesk";
+@import "@fontsource-variable/inter";
 
 @plugin "tailwindcss-animate";
 
 @custom-variant dark (&:is(.dark *));
 
 /* ============================================================
-   NEO-BRUTALISM DESIGN TOKENS
+   MODERN NEO-BRUTALIST DESIGN TOKENS
+   Palette anchored by the character's black hoodie.
    ============================================================ */
 :root {
-  --background: #fdf6e3;
-  --foreground: #1a1a1a;
+  --background: #f5f3ef; /* warm off-white */
+  --foreground: #111111;
   --card: #ffffff;
-  --card-foreground: #1a1a1a;
+  --card-foreground: #111111;
   --popover: #ffffff;
-  --popover-foreground: #1a1a1a;
-  --primary: #ffde59;
-  --primary-foreground: #1a1a1a;
-  --secondary: #3b82f6;
-  --secondary-foreground: #ffffff;
-  --muted: #f4e9cf;
-  --muted-foreground: #6b6455;
-  --accent: #ff6b6b;
-  --accent-foreground: #ffffff;
-  --destructive: #ff6b6b;
+  --popover-foreground: #111111;
+  --primary: #000000;
+  --primary-foreground: #f5f3ef;
+  --secondary: #181818;
+  --secondary-foreground: #f5f3ef;
+  --muted: #e9e5de; /* warm gray */
+  --muted-foreground: #5c564c;
+  --accent: #c7f464; /* single tech accent: electric lime */
+  --accent-foreground: #111111;
+  --destructive: #e0473a;
   --destructive-foreground: #ffffff;
-  --border: #1a1a1a;
-  --input: #1a1a1a;
-  --ring: #1a1a1a;
-  --chart-1: #ffde59;
-  --chart-2: #3b82f6;
-  --chart-3: #ff6b6b;
-  --chart-4: #7ed957;
-  --chart-5: #b57edc;
+  --border: #111111;
+  --input: #111111;
+  --ring: #111111;
+  --chart-1: #111111;
+  --chart-2: #c7f464;
+  --chart-3: #9aa397;
+  --chart-4: #d9d4cb;
+  --chart-5: #e0473a;
   --radius: 0rem;
   --sidebar: #ffffff;
-  --sidebar-foreground: #1a1a1a;
-  --sidebar-primary: #ffde59;
-  --sidebar-primary-foreground: #1a1a1a;
-  --sidebar-accent: #f4e9cf;
-  --sidebar-accent-foreground: #1a1a1a;
-  --sidebar-border: #1a1a1a;
-  --sidebar-ring: #1a1a1a;
+  --sidebar-foreground: #111111;
+  --sidebar-primary: #000000;
+  --sidebar-primary-foreground: #f5f3ef;
+  --sidebar-accent: #e9e5de;
+  --sidebar-accent-foreground: #111111;
+  --sidebar-border: #111111;
+  --sidebar-ring: #111111;
 }
 
 .dark {
-  --background: #151410;
-  --foreground: #f5f0e1;
-  --card: #211f18;
-  --card-foreground: #f5f0e1;
-  --popover: #211f18;
-  --popover-foreground: #f5f0e1;
-  --primary: #ffde59;
-  --primary-foreground: #1a1a1a;
-  --secondary: #3b82f6;
-  --secondary-foreground: #ffffff;
-  --muted: #2a2820;
-  --muted-foreground: #a8a08c;
-  --accent: #ff6b6b;
-  --accent-foreground: #ffffff;
-  --destructive: #ff6b6b;
+  --background: #111111;
+  --foreground: #f5f3ef;
+  --card: #181818;
+  --card-foreground: #f5f3ef;
+  --popover: #181818;
+  --popover-foreground: #f5f3ef;
+  --primary: #c7f464;
+  --primary-foreground: #111111;
+  --secondary: #242424;
+  --secondary-foreground: #f5f3ef;
+  --muted: #242424;
+  --muted-foreground: #9aa397;
+  --accent: #c7f464;
+  --accent-foreground: #111111;
+  --destructive: #e0473a;
   --destructive-foreground: #ffffff;
-  --border: #f5f0e1;
-  --input: #f5f0e1;
-  --ring: #f5f0e1;
-  --chart-1: #ffde59;
-  --chart-2: #3b82f6;
-  --chart-3: #ff6b6b;
-  --chart-4: #7ed957;
-  --chart-5: #b57edc;
+  --border: #f5f3ef;
+  --input: #f5f3ef;
+  --ring: #c7f464;
+  --chart-1: #f5f3ef;
+  --chart-2: #c7f464;
+  --chart-3: #9aa397;
+  --chart-4: #242424;
+  --chart-5: #e0473a;
   --radius: 0rem;
-  --sidebar: #211f18;
-  --sidebar-foreground: #f5f0e1;
-  --sidebar-primary: #ffde59;
-  --sidebar-primary-foreground: #1a1a1a;
-  --sidebar-accent: #2a2820;
-  --sidebar-accent-foreground: #f5f0e1;
-  --sidebar-border: #f5f0e1;
-  --sidebar-ring: #f5f0e1;
+  --sidebar: #181818;
+  --sidebar-foreground: #f5f3ef;
+  --sidebar-primary: #c7f464;
+  --sidebar-primary-foreground: #111111;
+  --sidebar-accent: #242424;
+  --sidebar-accent-foreground: #f5f3ef;
+  --sidebar-border: #f5f3ef;
+  --sidebar-ring: #c7f464;
 }
 
-/* Neo-brutalism brand colors available as utilities: bg-brutal-yellow etc. */
+/* Brand colors mapped to the new palette.
+   These keep legacy class names (bg-brutal-*) working, but now
+   resolve to the black/gray/lime system instead of a rainbow. */
 @theme inline {
-  --color-brutal-yellow: #ffde59;
-  --color-brutal-blue: #3b82f6;
-  --color-brutal-red: #ff6b6b;
-  --color-brutal-green: #7ed957;
-  --color-brutal-purple: #b57edc;
-  --color-brutal-cyan: #5cd6ff;
-  --color-brutal-cream: #fdf6e3;
-  --color-brutal-ink: #1a1a1a;
-  --color-brutal-dark: #151410;
+  --color-brutal-yellow: #c7f464; /* now the accent lime */
+  --color-brutal-blue: #181818;   /* near-black */
+  --color-brutal-red: #e0473a;    /* destructive / alert */
+  --color-brutal-green: #c7f464;  /* accent lime (success) */
+  --color-brutal-purple: #242424; /* charcoal */
+  --color-brutal-cyan: #9aa397;   /* warm gray */
+  --color-brutal-cream: #f5f3ef;  /* warm off-white */
+  --color-brutal-ink: #111111;    /* near-black */
+  --color-brutal-dark: #111111;   /* near-black */
 }
 
 /* Map shadcn tokens to Tailwind colors */
@@ -136,8 +141,10 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --font-heading: var(--font-mono);
-  --font-mono: 'JetBrains Mono Variable', monospace;
+  --font-heading: var(--font-display);
+  --font-display: 'Space Grotesk Variable', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
 }
 
 /* ============================================================
@@ -167,12 +174,15 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'JetBrains Mono Variable', ui-monospace, monospace;
+    font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
   html {
-    @apply font-mono;
+    @apply font-sans;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk Variable', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
   }
 }
 
@@ -249,6 +259,20 @@
     @apply inline-flex items-center gap-1.5 border-2 border-foreground bg-card px-3 py-1 text-[10px] font-black uppercase tracking-widest text-foreground;
   }
 
+  /* Technical mono label (e.g. <STATUS: AVAILABLE />) */
+  .mono-label {
+    @apply inline-flex items-center gap-2 border-2 border-foreground bg-brutal-ink px-3 py-1 text-[10px] font-black uppercase tracking-widest text-brutal-cream;
+    font-family: 'JetBrains Mono Variable', ui-monospace, monospace;
+  }
+
+  /* Subtle grid decorative background */
+  .bg-grid {
+    background-image:
+      linear-gradient(var(--foreground) 1px, transparent 1px),
+      linear-gradient(90deg, var(--foreground) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
   /* Halftone dot pattern */
   .halftone {
     background-image: radial-gradient(currentColor 1px, transparent 1px);
@@ -283,8 +307,8 @@
 
   /* Selection color */
   ::selection {
-    background: #ffde59;
-    color: #1a1a1a;
+    background: #c7f464;
+    color: #111111;
   }
 }
 
