@@ -20,7 +20,6 @@ const nextId = () => ++lineId
 
 const HELP_TEXT = [
   'AI Terminal v4',
-  '',
   'Commands:',
   '  help     - Show this help',
   '  about    - About Gwido',
