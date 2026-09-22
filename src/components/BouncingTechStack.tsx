@@ -1,12 +1,10 @@
-import { useState, useEffect } from 'react';
+import type { FC } from 'react';
 
 interface TechDef {
   name: string;
   color: string;
-  icon: React.FC<{ size: number }>;
+  icon: FC<{ size: number }>;
 }
-
-const darkIcons: string[] = [];
 
 const techStack: TechDef[] = [
   {
@@ -197,42 +195,19 @@ const techStack: TechDef[] = [
 ];
 
 export function TechStackGrid() {
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
-
-  useEffect(() => {
-    const el = document.documentElement;
-    const check = () => setTheme(el.classList.contains('dark') ? 'dark' : 'light');
-    check();
-    const mo = new MutationObserver(check);
-    mo.observe(el, { attributes: true, attributeFilter: ['class'] });
-    return () => mo.disconnect();
-  }, []);
-
   return (
     <div className="flex flex-wrap gap-4 justify-center">
-      {techStack.map((tech, idx) => {
-        const isDark = darkIcons.includes(tech.name);
-        const text = isDark ? 'text-black' : (theme === 'dark' ? 'text-[#f5f0e1]' : 'text-brutal-ink');
-
+      {techStack.map((tech) => {
         return (
           <div
             key={tech.name}
-            className={`group relative flex flex-col items-center gap-1.5 px-4 py-3 border-2 border-foreground bg-card ${text} cursor-default transition-all duration-200 hover:-translate-y-1`}
+            className="group relative flex flex-col items-center gap-1.5 px-4 py-3 rounded-xl border border-border bg-surface text-foreground cursor-default transition-all duration-200 hover:border-accent/50 hover:bg-accent/10 hover:-translate-y-0.5"
             style={{
-              boxShadow: '4px 4px 0 0 var(--border)',
-              transform: idx % 3 === 1 ? 'rotate(1.5deg)' : idx % 3 === 2 ? 'rotate(-1.5deg)' : 'rotate(0deg)',
-              transition: 'box-shadow 0.2s, transform 0.2s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow = `8px 8px 0 0 var(--border)`;
-              e.currentTarget.style.background = 'var(--card)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = '4px 4px 0 0 var(--border)';
+              transition: 'border-color 0.2s, background-color 0.2s, transform 0.2s',
             }}
           >
             <tech.icon size={28} />
-            <span className="text-[10px] font-black leading-tight whitespace-nowrap uppercase">{tech.name}</span>
+            <span className="text-[10px] font-medium leading-tight whitespace-nowrap uppercase text-muted-foreground">{tech.name}</span>
           </div>
         );
       })}

@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { marked } from 'marked'
 import { allEducations, allExperiences } from 'content-collections'
-import { Badge } from '@/components/ui/badge'
 import { Github, Linkedin, MapPin, GraduationCap, Layers, X, Wrench, Cpu, Lightbulb, Sparkles, FileDown } from 'lucide-react'
 
 const skillCategories = [
@@ -47,7 +46,7 @@ export function ResumeModal({ onClose }: { onClose: () => void }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className="fixed inset-0 z-[100] bg-brutal-ink/70 flex items-center justify-center p-4"
+      className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
       onClick={onClose}
     >
       <motion.div
@@ -55,29 +54,29 @@ export function ResumeModal({ onClose }: { onClose: () => void }) {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 40, scale: 0.96 }}
         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        className="brutal-card w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden"
+        className="rounded-xl border border-border bg-surface w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-start justify-between p-6 pb-4 border-b-2 border-foreground shrink-0 bg-brutal-cyan">
+        <div className="flex items-start justify-between p-6 pb-4 border-b border-border shrink-0 bg-surface">
           <div className="space-y-1">
-            <div className="inline-flex items-center gap-2 bg-brutal-ink text-brutal-yellow px-3 py-1 font-black text-[10px] tracking-widest uppercase">
+            <div className="mono-label text-accent">
               <Sparkles size={12} /> Available for Work
             </div>
-            <h2 className="text-2xl font-black uppercase tracking-tight text-brutal-ink">
-              Short Resume<span className="text-brutal-red">.</span>
+            <h2 className="text-2xl font-bold tracking-tight text-foreground">
+              Short Resume<span className="text-accent">.</span>
             </h2>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={handleDownloadCV}
-              className="border-2 border-foreground bg-card p-2 text-foreground hover:bg-brutal-yellow transition-colors"
+              className="rounded-lg border border-border bg-surface p-2 text-foreground hover:border-accent/50 hover:bg-accent/10 hover:text-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               title="Download CV"
             >
               <FileDown size={20} />
             </button>
             <button
               onClick={onClose}
-              className="border-2 border-foreground bg-brutal-red p-2 text-white hover:bg-brutal-ink transition-colors"
+              className="rounded-lg border border-border bg-accent p-2 text-accent-foreground hover:brightness-110 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               <X size={22} />
             </button>
@@ -88,51 +87,51 @@ export function ResumeModal({ onClose }: { onClose: () => void }) {
           {/* Header */}
           <header className="flex flex-col md:flex-row items-center md:items-end justify-between gap-4 text-center md:text-left">
             <div className="space-y-2">
-              <h1 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-foreground">
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
                 Gwido Putra Wijaya
               </h1>
-              <p className="text-lg font-black uppercase tracking-wide text-muted-foreground">
-                Full-stack Developer <span className="mx-2 text-brutal-red">|</span> Web, Mobile & AI Enthusiast
+              <p className="text-lg font-medium tracking-wide text-muted-foreground">
+                Full-stack Developer <span className="mx-2 text-accent">|</span> Web, Mobile & AI Enthusiast
               </p>
               <div className="flex items-center justify-center md:justify-start gap-2 text-muted-foreground">
-                <MapPin className="w-4 h-4 text-brutal-red" />
-                <span className="text-sm font-black tracking-wide uppercase italic">Malang, Jawa Timur</span>
+                <MapPin className="w-4 h-4 text-accent" />
+                <span className="text-sm font-medium tracking-wide italic">Malang, Jawa Timur</span>
               </div>
             </div>
             <div className="flex gap-2">
-              <a href="https://github.com/GwidoPutra" target="_blank" rel="noopener noreferrer" className="p-2.5 border-2 border-foreground bg-card text-foreground hover:bg-brutal-ink hover:text-white transition-colors brutal-shadow-sm">
+              <a href="https://github.com/GwidoPutra" target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-lg border border-border bg-surface text-foreground hover:border-accent/50 hover:bg-accent/10 hover:text-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background">
                 <Github size={18} />
               </a>
-              <a href="https://linkedin.com/in/gwido-putra-wijaya" target="_blank" rel="noopener noreferrer" className="p-2.5 border-2 border-foreground bg-card text-foreground hover:bg-brutal-blue hover:text-white transition-colors brutal-shadow-sm">
+              <a href="https://linkedin.com/in/gwido-putra-wijaya" target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-lg border border-border bg-surface text-foreground hover:border-accent/50 hover:bg-accent/10 hover:text-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background">
                 <Linkedin size={18} />
               </a>
             </div>
           </header>
 
           {/* Summary */}
-          <section className="border-2 border-foreground bg-brutal-yellow p-6 brutal-shadow">
-            <div className="flex items-center gap-2 text-brutal-ink mb-3">
+          <section className="surface-card-base p-6">
+            <div className="flex items-center gap-2 text-foreground mb-3">
               <Layers size={16} />
-              <h3 className="font-black uppercase tracking-widest text-xs">Career Summary</h3>
+              <h3 className="font-semibold tracking-widest text-xs uppercase">Career Summary</h3>
             </div>
-            <p className="leading-relaxed font-bold text-justify text-brutal-ink/80">
+            <p className="leading-relaxed font-normal text-justify text-muted-foreground">
               Saya merupakan mahasiswa D-IV Teknik Informatika di Politeknik Negeri Malang dengan minat besar pada pengembangan aplikasi web dan mobile secara Full-stack. Berpengalaman di HMTI Polinema untuk mengasah kepemimpinan sambil tetap berfokus pada teknologi AI dan sistem cerdas.
             </p>
           </section>
 
           {/* Skills */}
           <section>
-            <h3 className="text-lg font-black uppercase tracking-tight mb-4 text-foreground">Toolkit & Skills</h3>
+            <h3 className="text-lg font-bold tracking-tight mb-4 text-foreground">Toolkit & Skills</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {skillCategories.map((category, idx) => (
-                <div key={category.title} className={`border-2 border-foreground p-4 ${idx % 3 === 0 ? 'bg-brutal-green' : idx % 3 === 1 ? 'bg-brutal-purple' : 'bg-brutal-cyan'} brutal-shadow-sm`}>
-                  <div className="flex items-center gap-2 text-brutal-ink">
+              {skillCategories.map((category) => (
+                <div key={category.title} className="surface-card-base p-4">
+                  <div className="flex items-center gap-2 text-foreground">
                     <category.icon className="w-3.5 h-3.5" />
-                    <span className="text-[9px] font-black uppercase tracking-widest">{category.title}</span>
+                    <span className="text-[9px] font-semibold uppercase tracking-widest">{category.title}</span>
                   </div>
                   <div className="flex flex-wrap gap-1.5 mt-3">
                     {category.skills.map((skill) => (
-                      <span key={skill} className="bg-card border-2 border-foreground px-2.5 py-0.5 text-[9px] font-black text-foreground">
+                      <span key={skill} className="bg-background border border-border rounded-md px-2.5 py-0.5 text-[9px] font-medium text-foreground">
                         {skill}
                       </span>
                     ))}
@@ -144,34 +143,34 @@ export function ResumeModal({ onClose }: { onClose: () => void }) {
 
           {/* Experience */}
           <section>
-            <h3 className="text-lg font-black uppercase tracking-tight mb-4 text-foreground">Experience</h3>
+            <h3 className="text-lg font-bold tracking-tight mb-4 text-foreground">Experience</h3>
             <div className="space-y-6">
               {allExperiences.map((exp) => (
-                <div key={exp.title} className="relative pl-6 border-l-2 border-dashed border-foreground">
-                  <div className="absolute left-[-5px] top-1.5 w-2 h-2 bg-brutal-yellow border-2 border-foreground rotate-45" />
+                <div key={exp.title} className="relative pl-6 border-l border-dashed border-border">
+                  <div className="absolute left-[-5px] top-1.5 w-2 h-2 rounded-full bg-accent-secondary border border-border" />
                   <div className="space-y-2">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                       <div>
-                        <h4 className="text-base font-black uppercase tracking-tight text-foreground">{exp.title}</h4>
-                        <p className="text-xs font-black uppercase tracking-wider text-muted-foreground">{exp.organization}</p>
+                        <h4 className="text-base font-bold tracking-tight text-foreground">{exp.title}</h4>
+                        <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">{exp.organization}</p>
                       </div>
-                      <span className="text-[9px] font-black text-brutal-ink bg-brutal-red border-2 border-foreground px-2 py-0.5 uppercase self-start sm:self-center leading-none brutal-shadow-sm">
+                      <span className="text-[9px] font-medium rounded-md bg-accent/10 text-accent border border-border px-2 py-0.5 uppercase self-start sm:self-center leading-none">
                         {exp.period}
                       </span>
                     </div>
-                    <p className="text-sm leading-relaxed font-bold text-muted-foreground">
+                    <p className="text-sm leading-relaxed font-normal text-muted-foreground">
                       {exp.description}
                     </p>
                     <div className="flex flex-wrap gap-1.5">
                       {exp.tags.map((tag) => (
-                        <span key={tag} className="text-[8px] font-black text-foreground border-2 border-foreground bg-card px-1.5 py-0.5 uppercase">
+                        <span key={tag} className="text-[8px] font-medium text-foreground border border-border bg-background rounded-md px-1.5 py-0.5 uppercase">
                           {tag}
                         </span>
                       ))}
                     </div>
                     {exp.content && (
                       <div
-                        className="mt-2 p-3 border-2 border-foreground bg-muted prose prose-sm max-w-none italic font-bold text-muted-foreground"
+                        className="mt-2 p-3 border border-border rounded-lg bg-muted prose prose-sm max-w-none italic font-normal text-muted-foreground"
                         dangerouslySetInnerHTML={{ __html: marked(exp.content) }}
                       />
                     )}
@@ -183,18 +182,18 @@ export function ResumeModal({ onClose }: { onClose: () => void }) {
 
           {/* Education */}
           <section>
-            <h3 className="text-lg font-black uppercase tracking-tight mb-4 text-foreground">Education</h3>
+            <h3 className="text-lg font-bold tracking-tight mb-4 text-foreground">Education</h3>
             <div className="grid gap-4">
-              {allEducations.map((education, idx) => (
-                <div key={education.school} className={`border-2 border-foreground p-5 ${idx % 2 === 0 ? 'bg-brutal-yellow' : 'bg-brutal-cyan'} brutal-shadow-sm`}>
+              {allEducations.map((education) => (
+                <div key={education.school} className="surface-card-base p-5">
                   <div className="flex items-start gap-3">
-                    <div className="p-2 border-2 border-foreground bg-card text-brutal-red brutal-shadow-sm">
+                    <div className="p-2 rounded-lg border border-border bg-accent/10 text-accent">
                       <GraduationCap size={18} />
                     </div>
                     <div className="space-y-1.5">
-                      <h4 className="text-base font-black uppercase tracking-tight text-brutal-ink">{education.school}</h4>
-                      <p className="text-sm leading-relaxed font-bold text-brutal-ink/75">{education.summary}</p>
-                      <p className="text-sm font-black text-brutal-ink/75">{education.startDate}-{education.endDate}</p>
+                      <h4 className="text-base font-bold tracking-tight text-foreground">{education.school}</h4>
+                      <p className="text-sm leading-relaxed font-normal text-muted-foreground">{education.summary}</p>
+                      <p className="text-sm font-medium text-muted-foreground">{education.startDate}-{education.endDate}</p>
                     </div>
                   </div>
                 </div>

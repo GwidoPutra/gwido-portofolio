@@ -132,7 +132,7 @@ export function CLITerminal() {
     }
 
     setHistory((prev) => prev.filter((l) => l.id !== thinkingId))
-    chatRef.current = [...nextChat, { role: 'assistant', content: reply }].slice(-12)
+    chatRef.current = [...nextChat, { role: 'assistant' as const, content: reply }].slice(-12)
     await typeOut(reply, 'ai')
   }
 
@@ -195,7 +195,7 @@ export function CLITerminal() {
     return (
       <button
         onClick={() => setIsClosed(false)}
-        className="fixed bottom-6 right-6 border-[3px] border-foreground bg-brutal-yellow text-brutal-ink p-3 brutal-shadow-lg hover:-translate-y-1 transition-transform z-50"
+        className="fixed bottom-6 right-6 rounded-lg border border-border bg-accent text-accent-foreground p-3 shadow-lg transition-all z-50 hover:brightness-110 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         aria-label="Open terminal"
       >
         <Terminal size={24} />
@@ -206,16 +206,16 @@ export function CLITerminal() {
   return (
     <div className={`fixed bottom-6 right-6 z-50 ${isMinimized ? 'w-auto' : 'w-80 h-96 sm:w-96'}`}>
       <div
-        className={`bg-card border-[3px] border-foreground overflow-hidden ${isMinimized ? 'h-auto' : 'h-full'} brutal-shadow-lg`}
+        className={`rounded-xl bg-surface border border-border overflow-hidden shadow-2xl ${isMinimized ? 'h-auto' : 'h-full'}`}
       >
-        <div className="flex items-center justify-between px-4 py-2.5 bg-brutal-ink border-b-[3px] border-foreground">
+        <div className="flex items-center justify-between px-4 py-2.5 bg-background border-b border-border">
           <div className="flex items-center gap-3">
             <div className="flex gap-2">
-              <div className="w-3 h-3 border-2 border-foreground bg-brutal-red" />
-              <div className="w-3 h-3 border-2 border-foreground bg-brutal-yellow" />
-              <div className="w-3 h-3 border-2 border-foreground bg-brutal-green" />
+              <div className="w-3 h-3 rounded-full bg-accent" />
+              <div className="w-3 h-3 rounded-full bg-accent-secondary" />
+              <div className="w-3 h-3 rounded-full bg-muted-foreground" />
             </div>
-            <span className="text-xs text-brutal-yellow font-mono font-black uppercase tracking-widest">AI Terminal v4</span>
+            <span className="text-xs text-muted-foreground font-mono font-medium uppercase tracking-widest">AI Terminal v4</span>
           </div>
           <div className="flex gap-2">
             <button
@@ -238,24 +238,24 @@ export function CLITerminal() {
         {!isMinimized && (
           <div className="flex flex-col h-[calc(100%-40px)] bg-background">
             <div ref={outputRef} className="flex-1 overflow-y-auto p-4 font-mono text-sm">
-              <div className="text-brutal-green mb-3 text-xs font-black tracking-widest uppercase">
+              <div className="text-accent-secondary mb-3 text-xs font-medium tracking-widest uppercase">
                 ▚ AI TERMINAL v4 — chat mode on
               </div>
-              <div className="text-muted-foreground mb-4 whitespace-pre-wrap font-bold">
+              <div className="text-muted-foreground mb-4 whitespace-pre-wrap font-medium">
                 {`Type help, or chat freely.\nTry: halo · test · Siapa Gwido?`}
               </div>
 
               {history.map((line) => (
                 <div
                   key={line.id}
-                  className={`whitespace-pre-wrap font-bold ${
+                  className={`whitespace-pre-wrap font-medium ${
                     line.type === 'input'
-                      ? 'text-brutal-blue'
+                      ? 'text-accent'
                       : line.type === 'error'
-                        ? 'text-brutal-red'
+                        ? 'text-accent'
                         : line.type === 'ai'
-                          ? 'text-brutal-green'
-                          : 'text-brutal-purple'
+                          ? 'text-accent-secondary'
+                          : 'text-muted-foreground'
                   }`}
                 >
                   {line.type === 'ai' ? `ai> ${line.content}` : line.content}
@@ -264,12 +264,12 @@ export function CLITerminal() {
 
               {typing && (
                 <div
-                  className={`whitespace-pre-wrap font-bold ${
+                  className={`whitespace-pre-wrap font-medium ${
                     typing.type === 'error'
-                      ? 'text-brutal-red'
+                      ? 'text-accent'
                       : typing.type === 'ai'
-                        ? 'text-brutal-green'
-                        : 'text-brutal-purple'
+                        ? 'text-accent-secondary'
+                        : 'text-muted-foreground'
                   }`}
                 >
                   {typing.type === 'ai' ? `ai> ${typing.text}` : typing.text}
@@ -278,7 +278,7 @@ export function CLITerminal() {
               )}
 
               <div className="flex items-center gap-2 mt-2">
-                <span className="text-brutal-blue shrink-0 font-black">guest@portfolio:~$</span>
+                <span className="text-accent shrink-0 font-medium">guest@portfolio:~$</span>
                 <input
                   ref={inputRef}
                   type="text"
@@ -291,7 +291,7 @@ export function CLITerminal() {
                     }
                   }}
                   disabled={busy || !!typing}
-                  className="flex-1 bg-transparent border-b-2 border-dashed border-foreground outline-none text-foreground disabled:opacity-50 font-mono"
+                  className="flex-1 bg-background border border-border rounded-lg px-2 focus:border-accent focus:ring-2 focus:ring-accent/30 outline-none text-foreground disabled:opacity-50 font-mono"
                   autoFocus
                 />
               </div>

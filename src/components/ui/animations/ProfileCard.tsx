@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { motion, useSpring, useTransform } from 'framer-motion'
+import { motion, useSpring } from 'framer-motion'
 import { MapPin, Briefcase, Github, Linkedin, Sparkles } from 'lucide-react'
 
 interface ProfileCardProps {
@@ -55,10 +55,10 @@ export function ProfileCard({
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={handleMouseLeave}
         style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-        className={`relative w-64 border-[3px] border-foreground bg-card overflow-hidden cursor-pointer select-none ${isHovered ? 'brutal-shadow-lg' : 'brutal-shadow'}`}
+        className={`relative w-64 rounded-xl border border-border bg-surface overflow-hidden cursor-pointer select-none transition-shadow ${isHovered ? 'shadow-2xl' : 'shadow-lg'}`}
       >
         {/* Photo Section */}
-        <div className="relative overflow-hidden border-b-[3px] border-foreground">
+        <div className="relative overflow-hidden border-b border-border">
           <img
             src={imageSrc}
             alt={name}
@@ -66,22 +66,22 @@ export function ProfileCard({
             draggable={false}
           />
           {/* Overlay solid color */}
-          <div className="absolute inset-0 bg-gradient-to-t from-brutal-ink/80 via-brutal-ink/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-transparent" />
 
           {/* Badge on top */}
           <div className="absolute top-4 left-1/2 -translate-x-1/2">
-            <div className="inline-flex items-center gap-1.5 bg-brutal-yellow border-2 border-foreground px-3 py-1.5 brutal-shadow-sm">
-              <Sparkles size={10} className="text-brutal-red" />
-              <span className="text-[10px] font-black uppercase tracking-widest text-brutal-ink">{badge}</span>
+            <div className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background/80 px-3 py-1.5 backdrop-blur">
+              <Sparkles size={10} className="text-accent" />
+              <span className="text-[10px] font-medium uppercase tracking-widest text-foreground">{badge}</span>
             </div>
           </div>
 
           {/* Name overlay on photo */}
           <div className="absolute bottom-4 left-4 right-4">
-            <p className="text-white font-black text-xl leading-tight uppercase tracking-tight">{name}</p>
+            <p className="text-foreground font-bold text-xl leading-tight tracking-tight">{name}</p>
             <div className="flex items-center gap-1 mt-1">
-              <Briefcase size={11} className="text-brutal-yellow" />
-              <p className="text-brutal-yellow text-xs font-black">{title}</p>
+              <Briefcase size={11} className="text-accent" />
+              <p className="text-accent text-xs font-medium">{title}</p>
             </div>
           </div>
         </div>
@@ -90,23 +90,23 @@ export function ProfileCard({
         <div className="p-5 space-y-4">
           {/* Location */}
           <div className="flex items-center gap-2 text-muted-foreground">
-            <MapPin size={13} className="text-brutal-red shrink-0" />
-            <span className="text-xs font-black">{location}</span>
+            <MapPin size={13} className="text-accent shrink-0" />
+            <span className="text-xs font-normal">{location}</span>
           </div>
 
           {/* Divider */}
-          <div className="h-[2px] border-t-2 border-dashed border-foreground" />
+          <div className="border-t border-dashed border-border" />
 
           {/* Social Links */}
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Connect</span>
+            <span className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Connect</span>
             <div className="flex gap-2">
               {githubUrl && (
                 <a
                   href={githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 border-2 border-foreground bg-brutal-cream hover:bg-brutal-ink text-brutal-ink hover:text-white transition-colors"
+                  className="p-2 rounded-lg border border-border bg-surface text-foreground hover:border-accent/50 hover:bg-accent/10 hover:text-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <Github size={14} />
@@ -117,7 +117,7 @@ export function ProfileCard({
                   href={linkedinUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 border-2 border-foreground bg-brutal-cream hover:bg-brutal-blue text-brutal-ink hover:text-white transition-colors"
+                  className="p-2 rounded-lg border border-border bg-surface text-foreground hover:border-accent/50 hover:bg-accent/10 hover:text-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <Linkedin size={14} />
