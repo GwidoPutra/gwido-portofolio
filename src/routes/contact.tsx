@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState } from 'react'
-import { Mail, Send, ArrowLeft, Layers, Sparkles, Github, Linkedin, MapPin } from 'lucide-react'
-import { useTheme } from '../contexts/ThemeContext'
+import { Mail, Send, ArrowLeft, Sparkles, Github, Linkedin, MapPin } from 'lucide-react'
 import { Navbar } from '../components/Navbar'
 
 export const Route = createFileRoute('/contact')({
@@ -10,27 +9,26 @@ export const Route = createFileRoute('/contact')({
 
 function Contact() {
   const [submitted, setSubmitted] = useState(false)
-  const { theme } = useTheme()
 
   if (submitted) {
     return (
-      <div className={`min-h-screen transition-colors duration-300 ${theme === 'dark' ? 'bg-brutal-dark' : 'bg-brutal-cream'}`}>
+      <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
         <Navbar />
 
         <div className="min-h-screen flex items-center justify-center pt-20 px-6">
-          <div className="brutal-card text-center max-w-md mx-auto p-10">
-            <div className="w-16 h-16 bg-brutal-green border-2 border-foreground flex items-center justify-center mx-auto mb-6 brutal-shadow">
-              <Mail className="w-8 h-8 text-brutal-ink" />
+          <div className="surface-card-base text-center max-w-md mx-auto p-10">
+            <div className="w-16 h-16 bg-accent text-accent-foreground border border-border rounded-lg flex items-center justify-center mx-auto mb-6">
+              <Mail className="w-8 h-8" />
             </div>
-            <h2 className="text-2xl font-black uppercase tracking-tight mb-3 text-foreground">
+            <h2 className="text-2xl font-bold tracking-tight mb-3 text-foreground">
               Pesan Terkirim!
             </h2>
-            <p className="mb-8 leading-relaxed font-bold text-muted-foreground">
+            <p className="mb-8 leading-relaxed font-normal text-muted-foreground">
               Terima kasih telah menghubungi saya. Saya akan segera kembali kepada Anda.
             </p>
             <button
               onClick={() => setSubmitted(false)}
-              className="brutal-btn-solid w-full"
+              className="btn-solid w-full"
             >
               Kirim Pesan Lagi
             </button>
@@ -40,10 +38,10 @@ function Contact() {
     )
   }
 
-  const inputClass = `w-full px-4 py-3 border-2 border-foreground bg-card text-foreground placeholder:text-muted-foreground outline-none focus:bg-brutal-yellow/20 transition-colors font-bold`
+  const inputClass = `w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground outline-none focus:border-accent focus:ring-2 focus:ring-accent/30 transition-all font-normal`
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${theme === 'dark' ? 'bg-brutal-dark' : 'bg-brutal-cream'}`}>
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
       <Navbar />
 
       <div className="max-w-5xl mx-auto px-6 pt-36 pb-20">
@@ -51,21 +49,21 @@ function Contact() {
         <div className="mb-12">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-black uppercase tracking-wide border-2 border-foreground bg-card text-foreground brutal-shadow-sm hover:-translate-y-0.5 transition-transform"
+            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-border bg-surface text-foreground hover:border-accent/50 hover:bg-accent/10 hover:text-accent transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             <ArrowLeft className="w-4 h-4" />
             Kembali
           </Link>
 
           <div className="space-y-4 mt-8">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 border-2 border-foreground bg-brutal-red text-white brutal-shadow-sm font-black text-[10px] tracking-widest uppercase">
+            <div className="mono-label border-accent/50 text-accent">
               <Sparkles size={12} />
               Hubungi Saya
             </div>
-            <h1 className={`text-4xl md:text-5xl font-black tracking-tight uppercase text-foreground`}>
-              Mari Berkolaborasi<span className="text-brutal-red">.</span>
+            <h1 className={`text-4xl md:text-5xl font-bold tracking-tight text-foreground`}>
+              Mari Berkolaborasi<span className="text-accent">.</span>
             </h1>
-            <p className={`text-lg font-bold leading-relaxed max-w-2xl ${theme === 'dark' ? 'text-[#f5f0e1]/70' : 'text-brutal-ink/70'}`}>
+            <p className={`text-lg font-normal leading-relaxed max-w-2xl text-muted-foreground`}>
               Punya ide proyek atau ingin bekerja sama? Isi formulir di bawah ini atau hubungi saya melalui media sosial.
             </p>
           </div>
@@ -73,8 +71,8 @@ function Contact() {
 
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Contact Form */}
-          <div className="brutal-card p-8">
-            <h2 className="text-xl font-black uppercase tracking-tight mb-6 text-foreground">Kirim Pesan</h2>
+          <div className="surface-card-base p-8">
+            <h2 className="text-xl font-bold tracking-tight mb-6 text-foreground">Kirim Pesan</h2>
             <form
               name="contact"
               method="POST"
@@ -105,7 +103,7 @@ function Contact() {
               <div>
                 <label
                   htmlFor="name"
-                  className="block text-sm font-black uppercase tracking-wide mb-2 text-foreground"
+                  className="block text-sm font-medium tracking-tight mb-2 text-foreground"
                 >
                   Nama
                 </label>
@@ -122,7 +120,7 @@ function Contact() {
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-black uppercase tracking-wide mb-2 text-foreground"
+                  className="block text-sm font-medium tracking-tight mb-2 text-foreground"
                 >
                   Email
                 </label>
@@ -139,7 +137,7 @@ function Contact() {
               <div>
                 <label
                   htmlFor="message"
-                  className="block text-sm font-black uppercase tracking-wide mb-2 text-foreground"
+                  className="block text-sm font-medium tracking-tight mb-2 text-foreground"
                 >
                   Pesan
                 </label>
@@ -155,7 +153,7 @@ function Contact() {
 
               <button
                 type="submit"
-                className="brutal-btn-solid w-full !py-4"
+                className="btn-solid w-full !py-4"
               >
                 <Send size={18} />
                 Kirim Pesan
@@ -165,52 +163,52 @@ function Contact() {
 
           {/* Contact Info */}
           <div className="space-y-6">
-            <div className="bg-brutal-purple border-2 border-foreground p-8 brutal-shadow-lg">
-              <h2 className="text-xl font-black uppercase tracking-tight mb-6 text-white">Informasi Kontak</h2>
+            <div className="surface-card-base p-8">
+              <h2 className="text-xl font-bold tracking-tight mb-6 text-foreground">Informasi Kontak</h2>
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-card border-2 border-foreground flex items-center justify-center flex-shrink-0 brutal-shadow-sm">
-                    <Mail size={20} className="text-brutal-purple" />
+                  <div className="w-12 h-12 rounded-lg border border-border bg-accent/10 text-accent flex items-center justify-center flex-shrink-0">
+                    <Mail size={20} />
                   </div>
                   <div>
-                    <h3 className="font-black uppercase mb-1 text-white">Email</h3>
-                    <a href="mailto:gwidoputra@gmail.com" className="text-white/80 hover:text-white transition-colors font-bold">
+                    <h3 className="font-semibold tracking-tight mb-1 text-foreground">Email</h3>
+                    <a href="mailto:gwidoputra@gmail.com" className="text-muted-foreground hover:text-accent transition-colors font-normal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-md">
                       gwidoputra@gmail.com
                     </a>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-card border-2 border-foreground flex items-center justify-center flex-shrink-0 brutal-shadow-sm">
-                    <MapPin size={20} className="text-brutal-red" />
+                  <div className="w-12 h-12 rounded-lg border border-border bg-accent/10 text-accent flex items-center justify-center flex-shrink-0">
+                    <MapPin size={20} />
                   </div>
                   <div>
-                    <h3 className="font-black uppercase mb-1 text-white">Lokasi</h3>
-                    <p className="text-white/80 font-bold">Malang, Jawa Timur</p>
+                    <h3 className="font-semibold tracking-tight mb-1 text-foreground">Lokasi</h3>
+                    <p className="text-muted-foreground font-normal">Malang, Jawa Timur</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="brutal-card p-8">
-              <h2 className="text-xl font-black uppercase tracking-tight mb-6 text-foreground">Terhubung</h2>
+            <div className="surface-card-base p-8">
+              <h2 className="text-xl font-bold tracking-tight mb-6 text-foreground">Terhubung</h2>
               <div className="flex gap-4">
                 <a
                   href="https://github.com/GwidoPutra"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center gap-2 p-4 border-2 border-foreground bg-card text-foreground hover:bg-brutal-ink hover:text-white transition-colors brutal-shadow-sm"
+                  className="flex-1 flex items-center justify-center gap-2 p-4 rounded-lg border border-border bg-surface text-foreground hover:border-accent/50 hover:bg-accent/10 hover:text-accent transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
                   <Github size={24} />
-                  <span className="font-black uppercase">GitHub</span>
+                  <span className="font-medium">GitHub</span>
                 </a>
                 <a
                   href="https://linkedin.com/in/gwido-putra-wijaya"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center gap-2 p-4 border-2 border-foreground bg-card text-foreground hover:bg-brutal-blue hover:text-white transition-colors brutal-shadow-sm"
+                  className="flex-1 flex items-center justify-center gap-2 p-4 rounded-lg border border-border bg-surface text-foreground hover:border-accent/50 hover:bg-accent/10 hover:text-accent transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
                   <Linkedin size={24} />
-                  <span className="font-black uppercase">LinkedIn</span>
+                  <span className="font-medium">LinkedIn</span>
                 </a>
               </div>
             </div>
