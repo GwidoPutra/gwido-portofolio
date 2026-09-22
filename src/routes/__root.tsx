@@ -1,7 +1,7 @@
 import { createRootRoute, useLocation, Outlet } from '@tanstack/react-router'
 import { Toaster } from "sonner"
 import { AnimatePresence, motion } from 'framer-motion'
-import { ThemeProvider } from '../contexts/ThemeContext'
+import { ThemeProvider, useTheme } from '../contexts/ThemeContext'
 
 import '../styles.css'
 
@@ -27,7 +27,25 @@ function RootComponent() {
         </motion.div>
       </AnimatePresence>
       
-      <Toaster position="top-right" richColors />
+      <ThemedToaster />
     </ThemeProvider>
+  )
+}
+
+// Toaster mengikuti tema aktif dan memakai warna surface/border yang sama.
+function ThemedToaster() {
+  const { theme } = useTheme()
+  return (
+    <Toaster
+      position="top-right"
+      theme={theme}
+      toastOptions={{
+        style: {
+          background: 'var(--surface)',
+          color: 'var(--foreground)',
+          border: '1px solid var(--border)',
+        },
+      }}
+    />
   )
 }
