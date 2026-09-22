@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const VERTEX_SHADER = `
 attribute vec2 a_position;
@@ -30,7 +30,7 @@ void main() {
   // so the hair/hoodie outline does not pick up a green fringe.
   float spill = smoothstep(0.08, 0.45, greenDominance);
   vec3 despilled = vec3(
-    color.r + spill * (max(color.r, color.b) - color.r) * 0.0,
+    color.r,
     mix(color.g, max(color.r, color.b), spill),
     color.b
   );
@@ -56,14 +56,17 @@ function compileShader(gl: WebGLRenderingContext, type: number, source: string):
  * 3D animated mascot.
  *
  * Renders the opaque `character-green.mp4` (solid #00FF00 background) through a
- * WebGL chroma-key shader that removes the green background in real time,
- * producing a true transparent mascot that floats over the hero background.
- * The subtle "glancing" animation is baked into the video loop itself, so no
- * JavaScript eye-tracking is required.
+ * WebGL chroma-key shader that removes the green background in real time.
+ *
+ * Ukuran dinamis: rasio canvas diambil dari rasio asli video (videoWidth /
+ * videoHeight), jadi tinggi elemen mengikuti lebar container (responsif) dan
+ * seluruh frame video (termasuk rambut) selalu tampil utuh lewat `object-contain`.
  */
 export function CharacterVideo({ className = '' }: { className?: string }) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  // Fallback sebelum metadata video terbaca.
+  const [aspect, setAspect] = useState('16 / 9')
 
   useEffect(() => {
     const video = videoRef.current
@@ -112,34 +115,32 @@ export function CharacterVideo({ className = '' }: { className?: string }) {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true)
 
     gl.enable(gl.BLEND)
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
 
-    // Size the canvas drawing buffer to the video's native resolution so the
-    // CSS `object-contain` scaling matches a normal <video> element (no
-    // internal stretching/distortion of the character).
+    // Samakan drawing buffer dengan resolusi asli video, lalu set rasio CSS
+    // canvas mengikuti video supaya ukurannya dinamis & tidak terdistorsi.
     const syncCanvasSize = () => {
-      if (video.videoWidth && video.videoHeight) {
-        if (canvas.width !== video.videoWidth) canvas.width = video.videoWidth
-        if (canvas.height !== video.videoHeight) canvas.height = video.videoHeight
-        gl.viewport(0, 0, canvas.width, canvas.height)
-      }
+      const w = video.videoWidth
+      const h = video.videoHeight
+      if (!w || !h) return
+      if (canvas.width !== w) canvas.width = w
+      if (canvas.height !== h) canvas.height = h
+      gl.viewport(0, 0, w, h)
+      setAspect(`${w} / ${h}`)
     }
     video.addEventListener('loadedmetadata', syncCanvasSize)
+    // Metadata bisa saja sudah termuat sebelum listener terpasang (cache).
+    syncCanvasSize()
 
     let rafId = 0
-    let videoReady = false
 
     const render = () => {
       rafId = requestAnimationFrame(render)
 
       // Only draw once the video has decoded a frame.
       if (video.readyState < 2) return
-      if (!videoReady) {
-        videoReady = true
-      }
 
       try {
         gl.bindTexture(gl.TEXTURE_2D, texture)
@@ -200,6 +201,7 @@ export function CharacterVideo({ className = '' }: { className?: string }) {
       <canvas
         ref={canvasRef}
         className={className}
+        style={{ aspectRatio: aspect }}
         aria-label="3D animated character mascot"
       />
     </>
